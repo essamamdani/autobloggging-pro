@@ -43,7 +43,7 @@ class AutoBlogging_Pro
 		// ajax
 		add_action('wp_ajax_autoblogging_pro_disconnect_api_key', [$this, 'disconnect_api_key']);
 		add_action('wp_ajax_autoblogging_pro_fetch_now', [$this, 'sync']);
-		$this->sync();
+		// $this->sync();
 	}
 	// disconnect_api_key
 	public function disconnect_api_key()
