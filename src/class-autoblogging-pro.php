@@ -557,3 +557,5 @@ class AutoBlogging_Pro
 		}
 	}
 }
+
+register_uninstall_hook(AUTOBLOGGING_PRO_FILE, ['AutoBloggingPro', 'uninstall']);
