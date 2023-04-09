@@ -333,7 +333,7 @@ class AutoBlogging_Pro
 			}
 
 			// Parse the JSON response and save the articles in the WordPress site
-			var_dump($response);
+
 			$articles = json_decode(wp_remote_retrieve_body($response), true);
 
 			if (empty($articles)) {
@@ -356,6 +356,8 @@ class AutoBlogging_Pro
 		$status = $action == 'schedule' ? 'future' : $action;
 
 		foreach ($articles as $article) {
+			var_dump($article);
+			die;
 			// Create a new post object
 			$new_post = [
 				'post_title'   => $article->title,
