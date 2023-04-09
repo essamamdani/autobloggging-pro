@@ -32,7 +32,7 @@ class AutoBlogging_Pro
 		register_uninstall_hook(AUTOBLOGGING_PRO_FILE, ['AutoBloggingPro', 'uninstall']); // register_uninstall_hook(__FILE__, [$this, 'uninstall']);
 		add_action('admin_init', [$this, 'autoblogging_pro_register_settings']);
 		add_action('admin_init', [$this, 'autoblogging_pro_settings_section']);
-		add_action('admin_init', [$this, 'sync']);
+		
 
 
 		// multi site support
