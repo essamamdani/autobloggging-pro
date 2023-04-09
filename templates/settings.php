@@ -11,9 +11,9 @@
 
 				<div class="flex justify-between">
 					<!-- disconnect api key with form -->
-					<button class="btn bg-red-300 text-white font-bold py-2 px-4 rounded btn_action" data-action="autoblogging_pro_disconnect_api_key"><?php esc_html_e("Disconnect") ?></button>
+					<button class="btn bg-red-700 text-white font-bold py-2 px-4 rounded btn_action" data-action="autoblogging_pro_disconnect_api_key"><?php esc_html_e("Disconnect") ?></button>
 
-					<button class="btn bg-blue-300 text-white font-bold py-2 px-4 rounded btn_action" data-action="autoblogging_pro_fetch_now"><?php esc_html_e("Fetch now") ?></button>
+					<button class="btn bg-blue-700 text-white font-bold py-2 px-4 rounded btn_action" data-action="autoblogging_pro_fetch_now"><?php esc_html_e("Fetch now") ?></button>
 
 				</div>
 				<form method="post" action="options.php">
