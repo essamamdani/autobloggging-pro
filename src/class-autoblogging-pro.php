@@ -27,9 +27,9 @@ class AutoBlogging_Pro
 		$this->schedule_sync();
 		add_action('admin_menu', [$this, 'add_admin_menu']);
 
-		register_activation_hook(__FILE__, [$this, 'activate']);
-		register_deactivation_hook(__FILE__, [$this, 'deactivate']);
-		register_uninstall_hook(__FILE__, [$this, 'uninstall']);
+		register_activation_hook(AUTOBLOGGING_PRO_FILE, [$this, 'activate']);
+		register_deactivation_hook(AUTOBLOGGING_PRO_FILE, [$this, 'deactivate']);
+		register_uninstall_hook(AUTOBLOGGING_PRO_FILE, ['AutoBloggingPro', 'uninstall']); // register_uninstall_hook(__FILE__, [$this, 'uninstall']);
 		add_action('admin_init', [$this, 'autoblogging_pro_register_settings']);
 		add_action('admin_init', [$this, 'autoblogging_pro_settings_section']);
 
@@ -557,5 +557,3 @@ class AutoBlogging_Pro
 		}
 	}
 }
-
-// register_uninstall_hook(AUTOBLOGGING_PRO_FILE, ['AutoBloggingPro', 'uninstall']);
