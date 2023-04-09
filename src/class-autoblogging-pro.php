@@ -356,7 +356,22 @@ class AutoBlogging_Pro
 		$status = $action == 'schedule' ? 'future' : $action;
 
 		foreach ($articles as $article) {
+
+			// Check if the article already exists
+			$existing_post = get_posts([
+				'post_type' => 'post',
+				'meta_key' => 'autoblogging_pro_article_id',
+				'meta_value' => $article['id'],
+			]);
+
+			if (!empty($existing_post)) {
+				// Update the existing post if necessary
+				continue;
+			}
+
 			$article = (object) $article;
+
+
 			// Create a new post object
 			$new_post = [
 				'post_title'   => $article->title,
@@ -392,6 +407,9 @@ class AutoBlogging_Pro
 				$categories = explode(',', $article->categories);
 				$categories = array_map('trim', $categories);
 				wp_set_post_categories($post_id, $categories);
+
+				// Save the article ID as post meta
+				update_post_meta($post_id, 'autoblogging_pro_article_id', $article['id']);
 
 				// Set featured image
 				// downlooad first then upload it to media library
