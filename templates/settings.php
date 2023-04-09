@@ -13,14 +13,16 @@
 
 				<!-- disconnect api key with form -->
 				<form method="post" action="options.php">
-
+					<?php settings_fields('autoblogging_pro'); ?>
+					<?php do_settings_sections('autoblogging_pro'); ?>
 					<input type="hidden" name="autoblogging_pro_api_key" value="">
 					<?php submit_button('Disconnect'); ?>
 				</form>
 
 				<!-- fetch now to run sync function in class-autobloggin-pro -->
 				<form method="post" action="options.php">
-
+					<?php settings_fields('autoblogging_pro'); ?>
+					<?php do_settings_sections('autoblogging_pro'); ?>
 					<input type="hidden" name="autoblogging_pro_fetch_now" value="1">
 					<?php submit_button('Fetch Now'); ?>
 				</form>
