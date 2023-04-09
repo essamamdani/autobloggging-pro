@@ -412,13 +412,13 @@ class AutoBlogging_Pro
 				// Save the article ID as post meta
 				update_post_meta($post_id, 'autoblogging_pro_article_id', $article['id']);
 
-				$this->seo_plugins($post_id, $article);
+				// $this->seo_plugins($post_id, $article);
 
 				// Set featured image
 				// downlooad first then upload it to media library
 
 				if ($article->image) {
-					$this->insert_image($article, $post_id);
+					// $this->insert_image($article, $post_id);
 				}
 			}
 		}
