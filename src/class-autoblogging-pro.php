@@ -324,7 +324,7 @@ class AutoBlogging_Pro {
 			if ( empty( $articles ) ) {
 				return;
 			}
-
+			var_dump($articles);die;
 			$this->insert_post( $articles );
 		}
 	}
@@ -338,9 +338,6 @@ class AutoBlogging_Pro {
 
 		// Get the schedule time option
 		$status = $action == 'schedule' ? 'future' : $action;
-		// array_shift($articles);
-		shuffle( $articles );
-		// $articles = array_slice(, 0, get_option('autoblogging_pro_post_limit', 1));
 
 		foreach ( $articles as $article ) {
 
@@ -379,29 +376,16 @@ class AutoBlogging_Pro {
 				$schedule_time         = get_option( 'autoblogging_pro_publish_time', '00:00' );
 				$new_post['post_date'] = $current_date . ' ' . $schedule_time;
 			}
-			// var_dump($new_post);
-			// die;
-
 			// Insert the post into the database
 			$post_id = wp_insert_post( $new_post );
 
-			// var_dump($post_id);
-			// die;
-			// Insert the post into the database
-
-
 			if ( $post_id ) {
-
 				// Set post tags
 				// tags are comma separated
 				wp_set_post_tags( $post_id, $article->tags );
 
-
-
-
 				// Set post categories are comma separated
 				$categories   = explode( ',', $article->category );
-				$categories   = array_map( 'trim', $categories );
 				$category_ids = [];
 
 				foreach ( $categories as $category ) {
@@ -426,8 +410,6 @@ class AutoBlogging_Pro {
 				$this->seo_plugins( $post_id, $article );
 
 				// Set featured image
-				// downlooad first then upload it to media library
-
 				if ( $article->image ) {
 					$this->insert_image( $article, $post_id );
 				}
