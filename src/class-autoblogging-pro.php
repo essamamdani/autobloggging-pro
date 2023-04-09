@@ -180,7 +180,9 @@ class AutoBlogging_Pro
 		}
 
 		if (isset($_POST['autoblogging_pro_api_key']) || isset($_GET['api_key'])) {
-			update_option('autoblogging_pro_api_key', $_POST['autoblogging_pro_api_key']);
+			$api_key = isset($_POST['autoblogging_pro_api_key']) ? $_POST['autoblogging_pro_api_key'] : $_GET['api_key'];
+			$api_key = sanitize_text_field($api_key);
+			update_option('autoblogging_pro_api_key', $api_key);
 		}
 
 
