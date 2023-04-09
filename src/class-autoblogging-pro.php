@@ -356,8 +356,7 @@ class AutoBlogging_Pro
 		$status = $action == 'schedule' ? 'future' : $action;
 
 		foreach ($articles as $article) {
-			var_dump($article);
-			die;
+			$article = (object) $article;
 			// Create a new post object
 			$new_post = [
 				'post_title'   => $article->title,
