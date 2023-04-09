@@ -187,7 +187,7 @@ class AutoBlogging_Pro
 			$this->sync();
 		}
 
-		$connect_api = AUTOBLOGGING_PRO_PLUGIN_API_URL . 'connect';
+		$connect_api = AUTOBLOGGING_PRO_API_URL . 'connect';
 
 		$action     = autoblogging_get_option('autoblogging_pro_action', 'draft');
 		$post_limit = autoblogging_get_option('autoblogging_pro_schedule_limit', 5);
