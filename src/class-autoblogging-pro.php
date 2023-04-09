@@ -321,7 +321,7 @@ class AutoBlogging_Pro
 				$app_url,
 				[
 					'headers' => [
-						'Domain'        => $domain,
+						'Domain'        => parse_url($domain, PHP_URL_HOST),
 						'Authorization' => 'Bearer ' . $api_key,
 					],
 				]
