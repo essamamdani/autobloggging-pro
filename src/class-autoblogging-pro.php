@@ -394,12 +394,12 @@ class AutoBlogging_Pro
 
 			$post_id = wp_insert_post($new_post);
 			var_dump($post_id);
+			die;
 			// Insert the post into the database
 
 
 			if ($post_id) {
 
-				die;
 				// Set post tags
 				// tags are comma separated
 				wp_set_post_tags($post_id, $article->tags);
