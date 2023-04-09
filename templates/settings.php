@@ -13,74 +13,23 @@
 
 				<!-- disconnect api key with form -->
 				<form method="post" action="options.php">
-					<?php settings_fields('autoblogging_pro_settings_group');
-					do_settings_sections('autoblogging_pro_settings_group'); ?>
 					<input type="hidden" name="autoblogging_pro_api_key" value="">
 					<?php submit_button('Disconnect'); ?>
 				</form>
 
 				<!-- fetch now to run sync function in class-autobloggin-pro -->
 				<form method="post" action="options.php">
-					<?php settings_fields('autoblogging_pro_settings_group');
-					do_settings_sections('autoblogging_pro_settings_group'); ?>
 					<input type="hidden" name="autoblogging_pro_fetch_now" value="1">
 					<?php submit_button('Fetch Now'); ?>
 				</form>
 
 
 				<form method="post" action="options.php">
-					<?php
-
-					// autoblogging_pro_settings_group
-					//autoblogging_pro_settings_section
-					//autoblogging_pro_post_limit
-					//autoblogging_pro_action
-					//autoblogging_pro_publish_time
-					settings_fields('autoblogging_pro_settings_group');
-					do_settings_sections('autoblogging_pro_settings_group');
-					?>
-
+					<?php settings_fields('autoblogging_pro_settings_group'); ?>
 					<table class="form-table">
-						<tr valign="top">
-							<th scope="row"><?php esc_html_e('Post Limit', 'autoblogging-pro'); ?></th>
-							<td>
-								<input type="number" name="autoblogging_pro_post_limit" min="1" step="1" value="<?php echo esc_attr(get_option('autoblogging_pro_post_limit', 1)); ?>" class="regular-text">
-								<p class="description"><?php esc_html_e('Enter the maximum number of articles to publish per day', 'autoblogging-pro'); ?></p>
-							</td>
-						</tr>
-						<tr valign="top">
-							<th scope="row"><?php esc_html_e('Action', 'autoblogging-pro'); ?></th>
-							<td>
-								<fieldset>
-									<legend class="screen-reader-text"><span><?php esc_html_e('Action', 'autoblogging-pro'); ?></span></legend>
-									<label for="autoblogging_pro_action_draft">
-										<input name="autoblogging_pro_action" type="radio" id="autoblogging_pro_action_draft" value="draft" <?php checked(get_option('autoblogging_pro_action', 'draft'), 'draft'); ?>>
-										<?php esc_html_e('No Action (Draft)', 'autoblogging-pro'); ?>
-									</label><br>
-									<label for="autoblogging_pro_action_publish">
-										<input name="autoblogging_pro_action" type="radio" id="autoblogging_pro_action_publish" value="publish" <?php checked(get_option('autoblogging_pro_action', 'draft'), 'publish'); ?>>
-										<?php esc_html_e('Auto Publish', 'autoblogging-pro'); ?>
-									</label><br>
-									<label for="autoblogging_pro_action_schedule">
-										<input name="autoblogging_pro_action" type="radio" id="autoblogging_pro_action_schedule" value="schedule" <?php checked(get_option('autoblogging_pro_action', 'draft'), 'schedule'); ?>>
-										<?php esc_html_e('Auto Schedule', 'autoblogging-pro'); ?>
-									</label>
-								</fieldset>
-							</td>
-						</tr>
-						<tr valign="top" class="autoblogging_pro_schedule_settings">
-							<th scope="row"><?php esc_html_e('Daily Publish Time', 'autoblogging-pro'); ?></th>
-							<td>
-								<input type="time" name="autoblogging_pro_publish_time" value="<?php echo esc_attr(get_option('autoblogging_pro_publish_time')); ?>" class="regular-text">
-								<p class="description"><?php esc_html_e('Daily time when the scheduled posts should be published', 'autoblogging-pro'); ?></p>
-							</td>
-						</tr>
+						<?php do_settings_sections('autoblogging_pro_settings_group'); ?>
 					</table>
 					<?php submit_button(); ?>
-
-
-
-
 				</form>
 				<script>
 					jQuery(document).ready(function($) {
