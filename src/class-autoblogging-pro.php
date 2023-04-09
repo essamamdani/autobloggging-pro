@@ -225,7 +225,7 @@ class AutoBlogging_Pro
 	 */
 	public function autoblogging_pro_settings_section_callback()
 	{
-		echo '<p>AutoBlogging Pro Settings</p>';
+		echo '';
 	}
 
 	/**
@@ -235,7 +235,7 @@ class AutoBlogging_Pro
 	{
 ?>
 		<tr valign="top">
-			<th scope="row"><?php esc_html_e('Post Limit', 'autoblogging-pro'); ?></th>
+
 			<td>
 				<input type="number" name="autoblogging_pro_post_limit" min="1" step="1" value="<?php echo esc_attr(get_option('autoblogging_pro_post_limit', 1)); ?>" class="regular-text">
 				<p class="description"><?php esc_html_e('Enter the maximum number of articles to publish per day', 'autoblogging-pro'); ?></p>
@@ -251,7 +251,7 @@ class AutoBlogging_Pro
 	{
 	?>
 		<tr valign="top">
-			<th scope="row"><?php esc_html_e('Action', 'autoblogging-pro'); ?></th>
+
 			<td>
 				<fieldset>
 					<legend class="screen-reader-text"><span><?php esc_html_e('Action', 'autoblogging-pro'); ?></span></legend>
@@ -280,7 +280,7 @@ class AutoBlogging_Pro
 	{
 	?>
 		<tr valign="top" class="autoblogging_pro_schedule_settings">
-			<th scope="row"><?php esc_html_e('Daily Publish Time', 'autoblogging-pro'); ?></th>
+
 			<td>
 				<input type="time" name="autoblogging_pro_publish_time" value="<?php echo esc_attr(get_option('autoblogging_pro_publish_time')); ?>" class="regular-text">
 				<p class="description"><?php esc_html_e('Daily time when the scheduled posts should be published', 'autoblogging-pro'); ?></p>

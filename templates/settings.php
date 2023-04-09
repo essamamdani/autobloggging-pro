@@ -1,6 +1,5 @@
 <div class="container mx-auto p-4">
 	<script src="https://cdn.tailwindcss.com"></script>
-
 	<h1 class="text-center text-2xl mb-4">AutoBlogging Pro</h1>
 	<p class="text-center mb-4">Connect to your AutoBlogging Pro account to get started.</p>
 	<div class="flex justify-center">
