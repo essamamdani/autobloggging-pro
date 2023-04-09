@@ -338,7 +338,7 @@ class AutoBlogging_Pro
 			if (empty($articles)) {
 				return;
 			}
-			var_dump($articles);
+
 			$this->insert_post($articles);
 		}
 	}
@@ -375,7 +375,7 @@ class AutoBlogging_Pro
 
 			// Insert the post into the database
 			$post_id = wp_insert_post($new_post);
-
+			var_dump($post_id);
 			if ($post_id) {
 				// Set post tags
 				// tags are comma separated
