@@ -372,10 +372,14 @@ class AutoBlogging_Pro
 				$schedule_time         = get_option('autoblogging_pro_publish_time', '00:00');
 				$new_post['post_date'] = $current_date . ' ' . $schedule_time;
 			}
-
+			try {
+				$post_id = wp_insert_post($new_post);
+			} catch (Exception $e) {
+				echo 'Caught exception: ',  $e->getMessage(), "\n";
+			}
 			// Insert the post into the database
-			$post_id = wp_insert_post($new_post);
-			var_dump($post_id);
+
+
 			if ($post_id) {
 				// Set post tags
 				// tags are comma separated
