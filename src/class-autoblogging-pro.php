@@ -44,6 +44,7 @@ class AutoBlogging_Pro
 
 		// ajax
 		add_action('wp_ajax_autoblogging_pro_disconnect_api_key', [$this, 'disconnect_api_key']);
+		add_action('wp_ajax_autoblogging_pro_fetch_now', [$this, 'fetch_now']);
 	}
 	// disconnect_api_key
 	public function disconnect_api_key()
@@ -159,6 +160,20 @@ class AutoBlogging_Pro
 		}
 	}
 
+	/**
+	 * Fetch Now
+	 */
+	public function fetch_now()
+	{
+
+		$this->sync();
+		if (defined('DOING_AJAX') && DOING_AJAX) {
+
+			wp_send_json_success();
+		}
+		return;
+	}
+
 
 
 
@@ -202,11 +217,7 @@ class AutoBlogging_Pro
 
 		if (isset($_REQUEST['autoblogging_pro_fetch_now'])) {
 			// if its ajax requset send succeess message
-			if (defined('DOING_AJAX') && DOING_AJAX) {
-				$this->sync();
-				wp_send_json_success();
-			}
-			$this->sync();
+			$this->fetch_now();
 		}
 
 		$connect_api = AUTOBLOGGING_PRO_API_URL . 'connect';
