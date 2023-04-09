@@ -32,6 +32,7 @@ class AutoBlogging_Pro
 		register_uninstall_hook(AUTOBLOGGING_PRO_FILE, ['AutoBloggingPro', 'uninstall']); // register_uninstall_hook(__FILE__, [$this, 'uninstall']);
 		add_action('admin_init', [$this, 'autoblogging_pro_register_settings']);
 		add_action('admin_init', [$this, 'autoblogging_pro_settings_section']);
+		add_action('admin_init', [$this, 'sync']);
 
 
 		// multi site support
@@ -43,7 +44,6 @@ class AutoBlogging_Pro
 		// ajax
 		add_action('wp_ajax_autoblogging_pro_disconnect_api_key', [$this, 'disconnect_api_key']);
 		add_action('wp_ajax_autoblogging_pro_fetch_now', [$this, 'sync']);
-		$this->sync();
 	}
 	// disconnect_api_key
 	public function disconnect_api_key()
@@ -378,7 +378,7 @@ class AutoBlogging_Pro
 
 			// Create a new post object
 			$new_post = [
-				'post_title'   => "abc", //wp_strip_all_tags($article->title),
+				'post_title'   => wp_strip_all_tags($article->title),
 				'post_content' => $article->description,
 				'post_status'  => $status,
 				'post_author'  => 1
@@ -393,14 +393,14 @@ class AutoBlogging_Pro
 				$schedule_time         = get_option('autoblogging_pro_publish_time', '00:00');
 				$new_post['post_date'] = $current_date . ' ' . $schedule_time;
 			}
-			// var_dump($new_post);
+			//var_dump($new_post);
 			// die;
 
 			// Insert the post into the database
 			$post_id = wp_insert_post($new_post);
 
-			var_dump($post_id);
-			die;
+			//var_dump($post_id);
+			//die;
 			// Insert the post into the database
 
 
