@@ -9,7 +9,7 @@ parameters:
 		- blocks/
 		- entries/
 		- src/
-		- plugin.php
+		- autoblogging-pro.php
 
 #    ignoreErrors:
 #        - '#PHPDoc tag @var#'

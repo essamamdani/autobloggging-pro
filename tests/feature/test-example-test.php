@@ -1,7 +1,7 @@
 <?php
-namespace Create_WordPress_Plugin\Tests\Feature;
+namespace AutoBlogging_Pro\Tests\Feature;
 
-use Create_WordPress_Plugin\Tests\Test_Case;
+use AutoBlogging_Pro\Tests\Test_Case;
 
 /**
  * Visit {@see https://mantle.alley.co/testing/test-framework.html} to learn more.

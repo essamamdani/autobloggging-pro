@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
-<ruleset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="create-wordpress-plugin" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/squizlabs/PHP_CodeSniffer/master/phpcs.xsd">
-  <description>PHP_CodeSniffer standard for create-wordpress-plugin.</description>
+<ruleset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="autoblogging-pro" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/squizlabs/PHP_CodeSniffer/master/phpcs.xsd">
+  <description>PHP_CodeSniffer standard for autoblogging-pro.</description>
 
   <!-- Include Alley Rules -->
   <rule ref="Alley-Interactive" />
@@ -37,8 +37,8 @@
   <rule ref="WordPress.NamingConventions.PrefixAllGlobals">
     <properties>
       <property name="prefixes" type="array">
-        <element value="vendor_name" />
-        <element value="create_wordpress_plugin" />
+        <element value="autoblogging.proo" />
+        <element value="autoblogging_pro" />
       </property>
     </properties>
   </rule>

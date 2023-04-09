@@ -2,10 +2,10 @@
 /**
  * Contains functions for working with meta.
  *
- * @package create-wordpress-plugin
+ * @package autoblogging-pro
  */
 
-namespace Create_WordPress_Plugin;
+namespace AutoBlogging_Pro;
 
 // Register custom meta fields.
 register_post_meta_from_defs();
@@ -36,7 +36,7 @@ function register_meta_helper(
 		throw new \InvalidArgumentException(
 			__(
 				'Object type must be one of "post", "term".',
-				'create-wordpress-plugin'
+				'autoblogging-pro'
 			)
 		);
 	}
@@ -72,7 +72,7 @@ function register_meta_helper(
 	 * @param string $meta_key     The meta key to register.
 	 */
 	$args = apply_filters(
-		'create_wordpress_plugin_register_meta_helper_args', // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
+		'autoblogging_pro_register_meta_helper_args', // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
 		wp_parse_args(
 			$args,
 			[
@@ -151,3 +151,4 @@ function register_post_meta_from_defs(): void {
 		);
 	}
 }
+

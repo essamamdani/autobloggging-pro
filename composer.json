@@ -1,17 +1,16 @@
 {
-    "name": "alleyinteractive/create-wordpress-plugin",
-    "description": "A skeleton WordPress plugin",
+    "name": "autoblogging-pro/autoblogging-pro",
+    "description": "Automatically fetch and publish articles from AutoBlogging Pro.",
     "type": "wordpress-plugin",
     "keywords": [
-        "alleyinteractive",
-        "create-wordpress-plugin"
+        "autoblogging-pro"
     ],
-    "homepage": "https://github.com/alleyinteractive/create-wordpress-plugin",
+    "homepage": "https://github.com/autoblogging-pro/autoblogging-pro",
     "license": "GPL-2.0-or-later",
     "authors": [
         {
-            "name": "author_name",
-            "email": "email@domain.com"
+            "name": "Essa Mamdani",
+            "email": "mamdani.info@gmail.com"
         }
     ],
     "require": {
@@ -25,19 +24,20 @@
     },
     "config": {
         "allow-plugins": {
-            "alleyinteractive/composer-wordpress-autoloader": true,
+            "autoblogging-proo/composer-wordpress-autoloader": true,
             "dealerdirect/phpcodesniffer-composer-installer": true,
-            "pestphp/pest-plugin": true
+            "pestphp/pest-plugin": true,
+            "alleyinteractive/composer-wordpress-autoloader": true
         },
         "sort-packages": true
     },
     "extra": {
         "wordpress-autoloader": {
             "autoload": {
-                "Create_WordPress_Plugin\\": "src"
+                "AutoBlogging_Pro\\": "src"
             },
             "autoload-dev": {
-                "Create_WordPress_Plugin\\Tests\\": "tests"
+                "AutoBlogging_Pro\\Tests\\": "tests"
             }
         }
     },

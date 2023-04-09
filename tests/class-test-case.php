@@ -1,10 +1,10 @@
 <?php
-namespace Create_WordPress_Plugin\Tests;
+namespace AutoBlogging_Pro\Tests;
 
 use Mantle\Testkit\Test_Case as TestkitTest_Case;
 
 /**
- * Create WordPress Plugin Base Test Case
+ * AutoBlogging Pro Base Test Case
  */
 abstract class Test_Case extends TestkitTest_Case {
 

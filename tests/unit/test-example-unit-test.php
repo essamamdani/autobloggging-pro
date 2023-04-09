@@ -1,5 +1,5 @@
 <?php
-namespace Create_WordPress_Plugin\Tests\Unit;
+namespace AutoBlogging_Pro\Tests\Unit;
 
 use PHPUnit\Framework\TestCase;
 

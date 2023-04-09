@@ -1,21 +1,22 @@
 <?php
+
 /**
- * Plugin Name: Create WordPress Plugin
- * Plugin URI: https://github.com/alleyinteractive/create-wordpress-plugin
- * Description: A skeleton WordPress plugin
- * Version: 0.1.0
- * Author: author_name
- * Author URI: https://github.com/alleyinteractive/create-wordpress-plugin
+ * Plugin Name: AutoBlogging Pro
+ * Plugin URI: https://autoblogging.pro
+ * Description: Automatically fetch and publish articles from AutoBlogging Pro.
+ * Version: 1.0
+ * Author: Essa Mamdani
+ * Author URI: https://autoblogging.pro
  * Requires at least: 5.9
  * Tested up to: 6.2
  *
- * Text Domain: create-wordpress-plugin
+ * Text Domain: autoblogging-pro
  * Domain Path: /languages/
  *
- * @package create-wordpress-plugin
+ * @package autoblogging-pro
  */
 
-namespace Create_WordPress_Plugin;
+namespace AutoBlogging_Pro;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -24,9 +25,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Root directory to this plugin.
  */
-define( 'CREATE_WORDPRESS_PLUGIN_DIR', __DIR__ );
-
-/* Start Composer Loader */
+define( 'AUTOBLOGGING_PRO_DIR', __DIR__ );
+define( 'AUTOBLOGGING_PRO_URL', plugin_dir_url( __FILE__ ) );
+define( 'AUTOBLOGGING_PRO_FILE', __FILE__ );
+define( 'AUTOBLOGGING_PRO_VERSION', '1.0' );
+define( 'AUTOBLOGGING_PRO_NAME', 'AutoBlogging Pro' );
+define( 'AUTOBLOGGING_PRO_API_URL', 'https://app.autoblogging.pro/' );
 
 // Check if Composer is installed (remove if Composer is not required for your plugin).
 if ( ! file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
@@ -37,11 +41,11 @@ if ( ! file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
 	if ( ! class_exists( \Composer\InstalledVersions::class ) ) {
 		\add_action(
 			'admin_notices',
-			function() {
+			function () {
 				?>
-				<div class="notice notice-error">
-					<p><?php esc_html_e( 'Composer is not installed and create-wordpress-plugin cannot load. Try using a `*-built` branch if the plugin is being loaded as a submodule.', 'create-wordpress-plugin' ); ?></p>
-				</div>
+			<div class="notice notice-error">
+				<p><?php esc_html_e( 'Composer is not installed and autoblogging-pro cannot load. Try using a `*-built` branch if the plugin is being loaded as a submodule.', 'autoblogging-pro' ); ?></p>
+			</div>
 				<?php
 			}
 		);
@@ -53,10 +57,7 @@ if ( ! file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
 	require_once __DIR__ . '/vendor/autoload.php';
 }
 
-/* End Composer Loader */
-
 // Load the plugin's main files.
-require_once __DIR__ . '/src/assets.php';
 require_once __DIR__ . '/src/meta.php';
 
 /**
@@ -64,5 +65,6 @@ require_once __DIR__ . '/src/meta.php';
  */
 function main(): void {
 	// ...
+	\AutoBlogging_Pro\AutoBlogging_Pro::instance();
 }
 main();
