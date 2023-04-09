@@ -375,7 +375,7 @@ class AutoBlogging_Pro
 
 			// Create a new post object
 			$new_post = [
-				'post_title'   => $article->title,
+				'post_title'   => wp_strip_all_tags($article->title),
 				'post_content' => $article->description,
 				'post_status'  => $status,
 				'post_author'  => 1,
