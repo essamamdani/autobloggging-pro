@@ -13,24 +13,32 @@
 
 				<!-- disconnect api key with form -->
 				<form method="post" action="options.php">
-					<?php settings_fields('autoblogging_pro'); ?>
-					<?php do_settings_sections('autoblogging_pro'); ?>
+					<?php settings_fields('autoblogging_pro_settings_group');
+				do_settings_sections('autoblogging_pro_settings_group'); ?>
 					<input type="hidden" name="autoblogging_pro_api_key" value="">
 					<?php submit_button('Disconnect'); ?>
 				</form>
 
 				<!-- fetch now to run sync function in class-autobloggin-pro -->
 				<form method="post" action="options.php">
-					<?php settings_fields('autoblogging_pro'); ?>
-					<?php do_settings_sections('autoblogging_pro'); ?>
+					<?php settings_fields('autoblogging_pro_settings_group');
+				do_settings_sections('autoblogging_pro_settings_group'); ?>
 					<input type="hidden" name="autoblogging_pro_fetch_now" value="1">
 					<?php submit_button('Fetch Now'); ?>
 				</form>
 
 
 				<form method="post" action="options.php">
-					<?php settings_fields('autoblogging_pro'); ?>
-					<?php do_settings_sections('autoblogging_pro'); ?>
+				<?php 
+
+				// autoblogging_pro_settings_group
+				//autoblogging_pro_settings_section
+				//autoblogging_pro_post_limit
+				//autoblogging_pro_action
+				//autoblogging_pro_publish_time
+				settings_fields('autoblogging_pro_settings_group');
+				do_settings_sections('autoblogging_pro_settings_group');
+				 
 					<table class="form-table">
 						<tr valign="top">
 							<th scope="row"><?php esc_html_e('Post Limit', 'autoblogging-pro'); ?></th>

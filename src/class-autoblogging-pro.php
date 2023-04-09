@@ -62,8 +62,8 @@ class AutoBlogging_Pro
 			update_site_option('autoblogging_pro_post_limit', $_POST['autoblogging_pro_post_limit']);
 		}
 
-		if (isset($_POST['autoblogging_pro_schedule_time'])) {
-			update_site_option('autoblogging_pro_schedule_time', $_POST['autoblogging_pro_schedule_time']);
+		if (isset($_POST['autoblogging_pro_publish_time'])) {
+			update_site_option('autoblogging_pro_publish_time', $_POST['autoblogging_pro_publish_time']);
 		}
 		wp_redirect(
 			add_query_arg(
@@ -125,7 +125,7 @@ class AutoBlogging_Pro
 			'autoblogging_pro_api_key',
 			'autoblogging_pro_publish_time',
 			'autoblogging_pro_post_limit',
-			'autoblogging_pro_schedule_time',
+			'autoblogging_pro_publish_time',
 		];
 		foreach ($options_to_delete as $option_key) {
 			delete_option($option_key);
@@ -178,8 +178,8 @@ class AutoBlogging_Pro
 			update_option('autoblogging_pro_post_limit', $_POST['autoblogging_pro_post_limit']);
 		}
 
-		if (isset($_POST['autoblogging_pro_schedule_time'])) {
-			update_option('autoblogging_pro_schedule_time', $_POST['autoblogging_pro_schedule_time']);
+		if (isset($_POST['autoblogging_pro_publish_time'])) {
+			update_option('autoblogging_pro_publish_time', $_POST['autoblogging_pro_publish_time']);
 		}
 
 		if (isset($_REQUEST['autoblogging_pro_fetch_now'])) {
@@ -191,7 +191,7 @@ class AutoBlogging_Pro
 		$action     = get_option('autoblogging_pro_action', 'draft');
 		$post_limit = get_option('autoblogging_pro_post_limit', 5);
 
-		$autoblogging_pro_schedule_time = get_option('autoblogging_pro_schedule_time', '');
+		$autoblogging_pro_publish_time = get_option('autoblogging_pro_publish_time', '');
 		$api_key                        = get_option('autoblogging_pro_api_key', '');
 
 
@@ -206,8 +206,7 @@ class AutoBlogging_Pro
 	{
 		register_setting('autoblogging_pro_settings_group', 'autoblogging_pro_post_limit');
 		register_setting('autoblogging_pro_settings_group', 'autoblogging_pro_action');
-
-		register_setting('autoblogging_pro_settings_group', 'autoblogging_pro_schedule_time');
+		register_setting('autoblogging_pro_settings_group', 'autoblogging_pro_publish_time');
 	}
 
 	/**
@@ -218,7 +217,7 @@ class AutoBlogging_Pro
 		add_settings_section('autoblogging_pro_settings_section', 'AutoBlogging Pro Settings', [$this, 'autoblogging_pro_settings_section_callback'], 'autoblogging_pro_settings_group');
 		add_settings_field('autoblogging_pro_post_limit', 'Schedule Limit', [$this, 'autoblogging_pro_post_limit_callback'], 'autoblogging_pro_settings_group', 'autoblogging_pro_settings_section');
 		add_settings_field('autoblogging_pro_action', 'Action', [$this, 'autoblogging_pro_action_callback'], 'autoblogging_pro_settings_group', 'autoblogging_pro_settings_section');
-		add_settings_field('autoblogging_pro_schedule_time', 'Schedule Time', [$this, 'autoblogging_pro_schedule_time_callback'], 'autoblogging_pro_settings_group', 'autoblogging_pro_settings_section');
+		add_settings_field('autoblogging_pro_publish_time', 'Schedule Time', [$this, 'autoblogging_pro_publish_time_callback'], 'autoblogging_pro_settings_group', 'autoblogging_pro_settings_section');
 	}
 
 	/**
@@ -250,10 +249,10 @@ class AutoBlogging_Pro
 	/**
 	 * Schedule time callback
 	 */
-	public function autoblogging_pro_schedule_time_callback()
+	public function autoblogging_pro_publish_time_callback()
 	{
-		$schedule_time = get_option('autoblogging_pro_schedule_time');
-		echo '<input type="text" name="autoblogging_pro_schedule_time" value="' . $schedule_time . '" />';
+		$schedule_time = get_option('autoblogging_pro_publish_time');
+		echo '<input type="text" name="autoblogging_pro_publish_time" value="' . $schedule_time . '" />';
 	}
 
 	/**
@@ -323,7 +322,7 @@ class AutoBlogging_Pro
 
 				// Get the current date
 				$current_date          = $current_datetime->format('Y-m-d');
-				$schedule_time         = get_option('autoblogging_pro_schedule_time', '00:00');
+				$schedule_time         = get_option('autoblogging_pro_publish_time', '00:00');
 				$new_post['post_date'] = $current_date . ' ' . $schedule_time;
 			}
 
