@@ -7,4 +7,4 @@ permissions:
 
 jobs:
   dependabot:
-    uses: alleyinteractive/.github/.github/workflows/dependabot-auto-merge.yml@main
+    uses: ./.github/workflows/dependabot-auto-merge.yml@main
