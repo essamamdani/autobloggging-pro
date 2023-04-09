@@ -130,7 +130,7 @@ class AutoBlogging_Pro
 	/**
 	 * Uninstall plugin
 	 */
-	public function uninstall()
+	static public function uninstall()
 	{
 		// do something
 		// Unschedule syncing event
