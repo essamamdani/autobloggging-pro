@@ -324,7 +324,7 @@ class AutoBlogging_Pro {
 			if ( empty( $articles ) ) {
 				return;
 			}
-			var_dump($articles);die;
+			// var_dump($articles);die;
 			$this->insert_post( $articles );
 		}
 	}
