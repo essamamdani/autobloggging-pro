@@ -392,7 +392,10 @@ class AutoBlogging_Pro
 			}
 
 
-			$post_id = wp_insert_post($new_post);
+			$post_id = wp_insert_post(
+				$new_post,
+				true
+			);
 			var_dump($post_id);
 			die;
 			// Insert the post into the database
