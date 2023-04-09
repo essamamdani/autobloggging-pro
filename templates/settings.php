@@ -6,21 +6,22 @@
 		<?php if (empty($api_key)) : ?>
 			<a href="<?php echo esc_url($connect_api) . '?redirect_to=' . base64_encode('https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']); ?>" class="bg-indigo-600 text-white font-bold py-2 px-4 rounded">Connect</a>
 		<?php else : ?>
-			<p class="text-green-500 font-bold">Connected to AutoBlogging Pro</p>
 			<div class="wrap">
 				<h1><?php esc_html_e('Autoblogging Pro Settings', 'autoblogging-pro'); ?></h1>
 
-				<!-- disconnect api key with form -->
-				<form method="post" action="options.php">
-					<input type="hidden" name="autoblogging_pro_api_key" value="">
-					<?php submit_button('Disconnect'); ?>
-				</form>
+				<div class="flex">
+					<!-- disconnect api key with form -->
+					<form method="post" action="options.php">
+						<input type="hidden" name="autoblogging_pro_api_key" value="">
+						<?php submit_button('Disconnect'); ?>
+					</form>
 
-				<!-- fetch now to run sync function in class-autobloggin-pro -->
-				<form method="post" action="options.php">
-					<input type="hidden" name="autoblogging_pro_fetch_now" value="1">
-					<?php submit_button('Fetch Now'); ?>
-				</form>
+					<!-- fetch now to run sync function in class-autobloggin-pro -->
+					<form method="post" action="options.php">
+						<input type="hidden" name="autoblogging_pro_fetch_now" value="1">
+						<?php submit_button('Fetch Now'); ?>
+					</form>
+				</div>
 
 
 				<form method="post" action="options.php">

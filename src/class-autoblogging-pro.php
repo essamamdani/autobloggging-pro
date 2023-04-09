@@ -214,7 +214,7 @@ class AutoBlogging_Pro
 	 */
 	public function autoblogging_pro_settings_section()
 	{
-		add_settings_section('autoblogging_pro_settings_section', 'AutoBlogging Pro Settings', [$this, 'autoblogging_pro_settings_section_callback'], 'autoblogging_pro_settings_group');
+		add_settings_section('autoblogging_pro_settings_section', '', [$this, 'autoblogging_pro_settings_section_callback'], 'autoblogging_pro_settings_group');
 		add_settings_field('autoblogging_pro_post_limit', 'Schedule Limit', [$this, 'autoblogging_pro_post_limit_callback'], 'autoblogging_pro_settings_group', 'autoblogging_pro_settings_section');
 		add_settings_field('autoblogging_pro_action', 'Action', [$this, 'autoblogging_pro_action_callback'], 'autoblogging_pro_settings_group', 'autoblogging_pro_settings_section');
 		add_settings_field('autoblogging_pro_publish_time', 'Schedule Time', [$this, 'autoblogging_pro_publish_time_callback'], 'autoblogging_pro_settings_group', 'autoblogging_pro_settings_section');
