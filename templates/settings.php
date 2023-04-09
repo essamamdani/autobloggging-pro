@@ -11,16 +11,10 @@
 
 				<div class="flex justify-between">
 					<!-- disconnect api key with form -->
-					<form method="post" action="options.php">
-						<input type="hidden" name="autoblogging_pro_api_key" value="">
-						<?php submit_button('Disconnect'); ?>
-					</form>
+					<button class="bg-red-600 text-white font-bold py-2 px-4 rounded btn_action" data-action="autoblogging_pro_disconnect_api_key"><?php esc_html_e("Disconnect") ?></button>
 
-					<!-- fetch now to run sync function in class-autobloggin-pro -->
-					<form method="post" action="options.php">
-						<input type="hidden" name="autoblogging_pro_fetch_now" value="1">
-						<?php submit_button('Fetch Now'); ?>
-					</form>
+					<button class="bg-red-600 text-white font-bold py-2 px-4 rounded btn_action" data-action="autoblogging_pro_fetch_now"><?php esc_html_e("Disconnect") ?></button>
+
 				</div>
 
 
@@ -47,6 +41,28 @@
 						// Hide the Schedule Interval and Schedule Time fields when No Action or Auto Publish is selected
 						$('#autoblogging_pro_action_draft, #autoblogging_pro_action_publish').click(function() {
 							$('.autoblogging_pro_schedule_settings').hide();
+						});
+
+						// disconnect api key
+						$('.btn_action').click(function() {
+							var action = $(this).data('action');
+							$.ajax({
+								url: '<?php echo admin_url('admin-ajax.php'); ?>',
+								type: 'POST',
+								data: {
+									action: action,
+								},
+								success: function(response) {
+									if (response.success) {
+										if (action == 'autoblogging_pro_disconnect_api_key') {
+											window.location.reload();
+										} else {
+											alert('Fetching now');
+										}
+
+									}
+								}
+							});
 						});
 					});
 				</script>

@@ -39,7 +39,22 @@ class AutoBlogging_Pro
 		add_action('network_admin_menu', [$this, 'add_admin_menu']);
 		add_action('network_admin_edit_autoblogging_pro_settings', [$this, 'save_network_settings']);
 		add_action('autoblogging_pro_sync_event', [$this, 'sync']);
+
+		// ajax
+		add_action('wp_ajax_autoblogging_pro_disconnect_api_key', [$this, 'disconnect_api_key']);
+		add_action('wp_ajax_autoblogging_pro_fetch_now', [$this, 'sync']);
 	}
+	// disconnect_api_key
+	public function disconnect_api_key()
+	{
+		$api_key = get_site_option('autoblogging_pro_api_key');
+		if ($api_key) {
+			update_site_option('autoblogging_pro_api_key', '');
+			wp_send_json_success();
+		}
+		wp_send_json_error();
+	}
+
 
 	/**
 	 * Get instance
@@ -217,7 +232,7 @@ class AutoBlogging_Pro
 		add_settings_section('autoblogging_pro_settings_section', '', [$this, 'autoblogging_pro_settings_section_callback'], 'autoblogging_pro_settings_group');
 		add_settings_field('autoblogging_pro_post_limit', 'Schedule Limit', [$this, 'autoblogging_pro_post_limit_callback'], 'autoblogging_pro_settings_group', 'autoblogging_pro_settings_section');
 		add_settings_field('autoblogging_pro_action', 'Action', [$this, 'autoblogging_pro_action_callback'], 'autoblogging_pro_settings_group', 'autoblogging_pro_settings_section');
-		add_settings_field('autoblogging_pro_publish_time', '', [$this, 'autoblogging_pro_publish_time_callback'], 'autoblogging_pro_settings_group', 'autoblogging_pro_settings_section');
+		add_settings_field('autoblogging_pro_publish_time', 'Schedule Time', [$this, 'autoblogging_pro_publish_time_callback'], 'autoblogging_pro_settings_group', 'autoblogging_pro_settings_section');
 	}
 
 	/**
@@ -279,10 +294,6 @@ class AutoBlogging_Pro
 	public function autoblogging_pro_publish_time_callback()
 	{
 	?>
-		<tr>
-			<th scope="row"><?php esc_html_e('Schedule Time') ?> </th>
-			<td> </td>
-		</tr>
 		<tr valign="top" class="autoblogging_pro_schedule_settings">
 
 			<td>
