@@ -355,6 +355,9 @@ class AutoBlogging_Pro
 
 		// Get the schedule time option
 		$status = $action == 'schedule' ? 'future' : $action;
+		// array_shift($articles);
+		shuffle($articles);
+		// $articles = array_slice(, 0, get_option('autoblogging_pro_post_limit', 1));
 
 		foreach ($articles as $article) {
 
