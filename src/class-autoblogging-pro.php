@@ -326,7 +326,7 @@ class AutoBlogging_Pro
 					],
 				]
 			);
-			var_dump($response);
+
 			if (is_wp_error($response)) {
 				// Handle errors
 				return;
@@ -352,10 +352,6 @@ class AutoBlogging_Pro
 		$action = get_option('autoblogging_pro_action', 'draft');
 
 		// Get the schedule time option
-
-
-
-
 		$status = $action == 'schedule' ? 'future' : $action;
 
 		foreach ($articles as $article) {
@@ -376,7 +372,7 @@ class AutoBlogging_Pro
 				$schedule_time         = get_option('autoblogging_pro_publish_time', '00:00');
 				$new_post['post_date'] = $current_date . ' ' . $schedule_time;
 			}
-
+			var_dump($new_post);
 			// Insert the post into the database
 			$post_id = wp_insert_post($new_post);
 
