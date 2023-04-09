@@ -393,7 +393,7 @@ class AutoBlogging_Pro
 				$schedule_time         = get_option('autoblogging_pro_publish_time', '00:00');
 				$new_post['post_date'] = $current_date . ' ' . $schedule_time;
 			}
-			// var_dump($new_post);
+			var_dump($new_post);
 			// die;
 
 			// Insert the post into the database
