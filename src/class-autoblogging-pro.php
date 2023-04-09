@@ -390,8 +390,7 @@ class AutoBlogging_Pro
 				$schedule_time         = get_option('autoblogging_pro_publish_time', '00:00');
 				$new_post['post_date'] = $current_date . ' ' . $schedule_time;
 			}
-			var_dump($new_post);
-			die;
+
 
 			$post_id = wp_insert_post($new_post);
 
@@ -399,6 +398,8 @@ class AutoBlogging_Pro
 
 
 			if ($post_id) {
+				var_dump($post_id);
+				die;
 				// Set post tags
 				// tags are comma separated
 				wp_set_post_tags($post_id, $article->tags);
