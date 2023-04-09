@@ -378,7 +378,7 @@ class AutoBlogging_Pro
 				'post_title'   => $article->title,
 				'post_content' => $article->description,
 				'post_status'  => $status,
-				'post_author'  => get_current_user_id(),
+				'post_author'  => 1,
 				'post_type'    => 'post',
 			];
 			if ($action == 'schedule') {
