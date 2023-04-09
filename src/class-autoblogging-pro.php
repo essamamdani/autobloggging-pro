@@ -43,7 +43,7 @@ class AutoBlogging_Pro
 
 		// ajax
 		add_action('wp_ajax_autoblogging_pro_disconnect_api_key', [$this, 'disconnect_api_key']);
-		add_action('wp_ajax_autoblogging_pro_fetch_now', [$this, 'sync']);
+		
 	}
 	// disconnect_api_key
 	public function disconnect_api_key()
@@ -201,7 +201,9 @@ class AutoBlogging_Pro
 		}
 
 		if (isset($_REQUEST['autoblogging_pro_fetch_now'])) {
-			$this->sync();
+			
+			// run this functionn after all core wordpress class and library loadded 
+			add_action('admin_init', [$this, 'sync']);
 		}
 
 		$connect_api = AUTOBLOGGING_PRO_API_URL . 'connect';
@@ -414,20 +416,20 @@ class AutoBlogging_Pro
 
 
 				// Set post categories are comma separated
-				$categories = explode(',', $article->categories);
+				$categories = explode(',', $article->category);
 				$categories = array_map('trim', $categories);
 				wp_set_post_categories($post_id, $categories);
 
 				// Save the article ID as post meta
 				update_post_meta($post_id, 'autoblogging_pro_article_id', $article['id']);
 
-				// $this->seo_plugins($post_id, $article);
+				$this->seo_plugins($post_id, $article);
 
 				// Set featured image
 				// downlooad first then upload it to media library
 
 				if ($article->image) {
-					// $this->insert_image($article, $post_id);
+					$this->insert_image($article, $post_id);
 				}
 			}
 		}
