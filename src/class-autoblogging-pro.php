@@ -378,11 +378,11 @@ class AutoBlogging_Pro
 
 			// Create a new post object
 			$new_post = [
-				'post_title'   => wp_strip_all_tags($article->title),
-				// 'post_content' => $article->description,
+				'post_title'   => "abc", //wp_strip_all_tags($article->title),
+				'post_content' => $article->description,
 				'post_status'  => $status,
-				'post_author'  => 1,
-				'post_type'    => 'post',
+				'post_author'  => 1
+
 			];
 			if ($action == 'schedule') {
 				// Get the current date and time
@@ -393,7 +393,7 @@ class AutoBlogging_Pro
 				$schedule_time         = get_option('autoblogging_pro_publish_time', '00:00');
 				$new_post['post_date'] = $current_date . ' ' . $schedule_time;
 			}
-			var_dump($new_post);
+			// var_dump($new_post);
 			// die;
 
 			// Insert the post into the database
