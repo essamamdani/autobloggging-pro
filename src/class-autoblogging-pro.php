@@ -333,6 +333,7 @@ class AutoBlogging_Pro
 			}
 
 			// Parse the JSON response and save the articles in the WordPress site
+			var_dump($response);
 			$articles = json_decode(wp_remote_retrieve_body($response), true);
 
 			if (empty($articles)) {
@@ -372,12 +373,9 @@ class AutoBlogging_Pro
 				$schedule_time         = get_option('autoblogging_pro_publish_time', '00:00');
 				$new_post['post_date'] = $current_date . ' ' . $schedule_time;
 			}
-			try {
-				var_dump($new_post);
-				$post_id = wp_insert_post($new_post);
-			} catch (Exception $e) {
-				echo 'Caught exception: ',  $e->getMessage(), "\n";
-			}
+
+			$post_id = wp_insert_post($new_post);
+
 			// Insert the post into the database
 
 
