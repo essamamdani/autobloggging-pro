@@ -55,7 +55,7 @@
 								success: function(response) {
 									if (response.success) {
 										if (action == 'autoblogging_pro_disconnect_api_key') {
-											window.location.reload();
+											window.location.href = '<?php echo admin_url('admin.php?page=autoblogging-pro-settings'); ?>';
 										} else {
 											alert('Fetching now');
 										}
