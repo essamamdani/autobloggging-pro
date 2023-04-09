@@ -16,8 +16,6 @@
 					<button class="bg-red-600 text-white font-bold py-2 px-4 rounded btn_action" data-action="autoblogging_pro_fetch_now"><?php esc_html_e("Disconnect") ?></button>
 
 				</div>
-
-
 				<form method="post" action="options.php">
 					<?php settings_fields('autoblogging_pro_settings_group'); ?>
 					<table class="form-table">
@@ -27,9 +25,9 @@
 				</form>
 				<script>
 					jQuery(document).ready(function($) {
-						// Hide the Schedule Interval and Schedule Time fields on load
 
 						<?php if ($action !== 'schedule') : ?>
+							// Hide the Schedule Interval and Schedule Time fields on load
 							$('.autoblogging_pro_schedule_settings').hide();
 						<?php endif; ?>
 
@@ -43,7 +41,7 @@
 							$('.autoblogging_pro_schedule_settings').hide();
 						});
 
-						// disconnect api key
+						// button action
 						$('.btn_action').click(function() {
 							var action = $(this).data('action');
 							$.ajax({
@@ -55,7 +53,7 @@
 								success: function(response) {
 									if (response.success) {
 										if (action == 'autoblogging_pro_disconnect_api_key') {
-											window.location.href = '<?php echo admin_url('admin.php?page=autoblogging-pro-settings'); ?>';
+											window.location.reload();
 										} else {
 											alert('Fetching now');
 										}
