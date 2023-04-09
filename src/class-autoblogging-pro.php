@@ -15,6 +15,7 @@ class AutoBlogging_Pro
 {
 
 
+
 	public static $instance;
 
 	/**
@@ -22,7 +23,6 @@ class AutoBlogging_Pro
 	 */
 	public function __construct()
 	{
-
 		// Schedule syncing event
 		$this->schedule_sync();
 		add_action('admin_menu', [$this, 'add_admin_menu']);
@@ -30,8 +30,8 @@ class AutoBlogging_Pro
 		register_activation_hook(__FILE__, [$this, 'activate']);
 		register_deactivation_hook(__FILE__, [$this, 'deactivate']);
 		register_uninstall_hook(__FILE__, [$this, 'uninstall']);
-		add_action('admin_init', array($this, 'autoblogging_pro_register_settings'));
-		add_action('admin_init', array($this, 'autoblogging_pro_settings_section'));
+		add_action('admin_init', [$this, 'autoblogging_pro_register_settings']);
+		add_action('admin_init', [$this, 'autoblogging_pro_settings_section']);
 
 
 		// multi site support
@@ -55,12 +55,11 @@ class AutoBlogging_Pro
 	// save_network_settings
 	public function save_network_settings()
 	{
-
-		if (isset($_POST['autoblogging_pro_publish_schedule'])) {
-			update_site_option('autoblogging_pro_publish_schedule', $_POST['autoblogging_pro_publish_schedule']);
+		if (isset($_POST['autoblogging_pro_publish_time'])) {
+			update_site_option('autoblogging_pro_publish_time', $_POST['autoblogging_pro_publish_time']);
 		}
-		if (isset($_POST['autoblogging_pro_schedule_limit'])) {
-			update_site_option('autoblogging_pro_schedule_limit', $_POST['autoblogging_pro_schedule_limit']);
+		if (isset($_POST['autoblogging_pro_post_limit'])) {
+			update_site_option('autoblogging_pro_post_limit', $_POST['autoblogging_pro_post_limit']);
 		}
 
 		if (isset($_POST['autoblogging_pro_schedule_time'])) {
@@ -89,9 +88,10 @@ class AutoBlogging_Pro
 		// do something
 		$default_options = [
 			'autoblogging_pro_api_key'          => '',
-			'autoblogging_pro_publish_schedule' => 'none',
-			'autoblogging_pro_schedule_limit'   => 5,
-			'autoblogging_pro_schedule_time'    => '12:00',
+			'autoblogging_pro_publish_time' => '12:00',
+			'autoblogging_pro_post_limit'   => 5,
+			'autoblogging_pro_action'    => 'draft'
+
 		];
 		foreach ($default_options as $option_key => $option_value) {
 			if (!get_option($option_key)) {
@@ -123,9 +123,8 @@ class AutoBlogging_Pro
 		// Delete options
 		$options_to_delete = [
 			'autoblogging_pro_api_key',
-			'autoblogging_pro_publish_schedule',
-			'autoblogging_pro_schedule_limit',
-			'autoblogging_pro_schedule_interval',
+			'autoblogging_pro_publish_time',
+			'autoblogging_pro_post_limit',
 			'autoblogging_pro_schedule_time',
 		];
 		foreach ($options_to_delete as $option_key) {
@@ -171,12 +170,12 @@ class AutoBlogging_Pro
 
 
 
-		if (isset($_POST['autoblogging_pro_publish_schedule'])) {
-			update_option('autoblogging_pro_publish_schedule', $_POST['autoblogging_pro_publish_schedule']);
+		if (isset($_POST['autoblogging_pro_publish_time'])) {
+			update_option('autoblogging_pro_publish_time', $_POST['autoblogging_pro_publish_time']);
 		}
 
-		if (isset($_POST['autoblogging_pro_schedule_limit'])) {
-			update_option('autoblogging_pro_schedule_limit', $_POST['autoblogging_pro_schedule_limit']);
+		if (isset($_POST['autoblogging_pro_post_limit'])) {
+			update_option('autoblogging_pro_post_limit', $_POST['autoblogging_pro_post_limit']);
 		}
 
 		if (isset($_POST['autoblogging_pro_schedule_time'])) {
@@ -190,7 +189,7 @@ class AutoBlogging_Pro
 		$connect_api = AUTOBLOGGING_PRO_API_URL . 'connect';
 
 		$action     = get_option('autoblogging_pro_action', 'draft');
-		$post_limit = get_option('autoblogging_pro_schedule_limit', 5);
+		$post_limit = get_option('autoblogging_pro_post_limit', 5);
 
 		$autoblogging_pro_schedule_time = get_option('autoblogging_pro_schedule_time', '');
 		$api_key                        = get_option('autoblogging_pro_api_key', '');
@@ -205,7 +204,7 @@ class AutoBlogging_Pro
 	 */
 	public function autoblogging_pro_register_settings()
 	{
-		register_setting('autoblogging_pro_settings_group', 'autoblogging_pro_schedule_limit');
+		register_setting('autoblogging_pro_settings_group', 'autoblogging_pro_post_limit');
 		register_setting('autoblogging_pro_settings_group', 'autoblogging_pro_action');
 
 		register_setting('autoblogging_pro_settings_group', 'autoblogging_pro_schedule_time');
@@ -217,7 +216,7 @@ class AutoBlogging_Pro
 	public function autoblogging_pro_settings_section()
 	{
 		add_settings_section('autoblogging_pro_settings_section', 'AutoBlogging Pro Settings', [$this, 'autoblogging_pro_settings_section_callback'], 'autoblogging_pro_settings_group');
-		add_settings_field('autoblogging_pro_schedule_limit', 'Schedule Limit', [$this, 'autoblogging_pro_schedule_limit_callback'], 'autoblogging_pro_settings_group', 'autoblogging_pro_settings_section');
+		add_settings_field('autoblogging_pro_post_limit', 'Schedule Limit', [$this, 'autoblogging_pro_post_limit_callback'], 'autoblogging_pro_settings_group', 'autoblogging_pro_settings_section');
 		add_settings_field('autoblogging_pro_action', 'Action', [$this, 'autoblogging_pro_action_callback'], 'autoblogging_pro_settings_group', 'autoblogging_pro_settings_section');
 		add_settings_field('autoblogging_pro_schedule_time', 'Schedule Time', [$this, 'autoblogging_pro_schedule_time_callback'], 'autoblogging_pro_settings_group', 'autoblogging_pro_settings_section');
 	}
@@ -233,10 +232,10 @@ class AutoBlogging_Pro
 	/**
 	 * Schedule limit callback
 	 */
-	public function autoblogging_pro_schedule_limit_callback()
+	public function autoblogging_pro_post_limit_callback()
 	{
-		$schedule_limit = get_option('autoblogging_pro_schedule_limit');
-		echo '<input type="text" name="autoblogging_pro_schedule_limit" value="' . $schedule_limit . '" />';
+		$schedule_limit = get_option('autoblogging_pro_post_limit');
+		echo '<input type="text" name="autoblogging_pro_post_limit" value="' . $schedule_limit . '" />';
 	}
 
 	/**
@@ -264,7 +263,7 @@ class AutoBlogging_Pro
 	{
 		// multisite support 
 		$app_url  = AUTOBLOGGING_PRO_API_URL . 'api/articles';
-		$site_url = get_site_url();
+		$domain = get_site_url();
 		$api_key  = get_option('autoblogging_pro_api_key');
 		if (!empty($api_key)) {
 			// Perform an HTTP request with the necessary headers

@@ -35,7 +35,7 @@
 						<tr valign="top">
 							<th scope="row"><?php esc_html_e('Post Limit', 'autoblogging-pro'); ?></th>
 							<td>
-								<input type="number" name="autoblogging_pro_schedule_limit" min="1" step="1" value="<?php echo esc_attr(get_option('autoblogging_pro_schedule_limit', 1)); ?>" class="regular-text">
+								<input type="number" name="autoblogging_pro_post_limit" min="1" step="1" value="<?php echo esc_attr(get_option('autoblogging_pro_post_limit', 1)); ?>" class="regular-text">
 								<p class="description"><?php esc_html_e('Enter the maximum number of articles to publish per day', 'autoblogging-pro'); ?></p>
 							</td>
 						</tr>
@@ -62,7 +62,7 @@
 						<tr valign="top" class="autoblogging_pro_schedule_settings">
 							<th scope="row"><?php esc_html_e('Daily Publish Time', 'autoblogging-pro'); ?></th>
 							<td>
-								<input type="time" name="autoblogging_pro_schedule_time" value="<?php echo esc_attr(get_option('autoblogging_pro_schedule_time')); ?>" class="regular-text">
+								<input type="time" name="autoblogging_pro_publish_time" value="<?php echo esc_attr(get_option('autoblogging_pro_publish_time')); ?>" class="regular-text">
 								<p class="description"><?php esc_html_e('Daily time when the scheduled posts should be published', 'autoblogging-pro'); ?></p>
 							</td>
 						</tr>
