@@ -9,7 +9,7 @@
 			<div class="wrap">
 				<h1><?php esc_html_e('Autoblogging Pro Settings', 'autoblogging-pro'); ?></h1>
 
-				<div class="flex">
+				<div class="flex justify-between">
 					<!-- disconnect api key with form -->
 					<form method="post" action="options.php">
 						<input type="hidden" name="autoblogging_pro_api_key" value="">
