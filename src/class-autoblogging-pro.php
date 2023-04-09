@@ -358,7 +358,7 @@ class AutoBlogging_Pro
 			// Create a new post object
 			$new_post = [
 				'post_title'   => $article->title,
-				'post_content' => $article->content,
+				'post_content' => $article->description,
 				'post_status'  => $status,
 				'post_author'  => get_current_user_id(),
 				'post_type'    => 'post',
@@ -378,16 +378,22 @@ class AutoBlogging_Pro
 
 			if ($post_id) {
 				// Set post tags
+				// tags are comma separated
 				wp_set_post_tags($post_id, $article->tags);
 
-				// Set post categories
-				wp_set_post_categories($post_id, $article->categories);
+
+
+
+				// Set post categories are comma separated
+				$categories = explode(',', $article->categories);
+				$categories = array_map('trim', $categories);
+				wp_set_post_categories($post_id, $categories);
 
 				// Set featured image
 				// downlooad first then upload it to media library
 
 				if ($article->image) {
-					$this->insert_image($article->image, $post_id);
+					$this->insert_image($article, $post_id);
 				}
 
 				$this->seo_plugins($post_id, $article);
@@ -398,7 +404,7 @@ class AutoBlogging_Pro
 	/**
 	 * Insert image
 	 */
-	public function insert_image($image_url, $post_id)
+	public function insert_image($article, $post_id)
 	{
 		// Download the image
 		$image = file_get_contents($article->image);
