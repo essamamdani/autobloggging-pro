@@ -379,7 +379,7 @@ class AutoBlogging_Pro
 			// Create a new post object
 			$new_post = [
 				'post_title'   => wp_strip_all_tags($article->title),
-				'post_content' => $article->description,
+				// 'post_content' => $article->description,
 				'post_status'  => $status,
 				'post_author'  => 1,
 				'post_type'    => 'post',
@@ -396,10 +396,9 @@ class AutoBlogging_Pro
 			// var_dump($new_post);
 			// die;
 
-			$post_id = wp_insert_post(
-				$new_post,
-				true
-			);
+			// Insert the post into the database
+			$post_id = wp_insert_post($new_post);
+
 			var_dump($post_id);
 			die;
 			// Insert the post into the database
