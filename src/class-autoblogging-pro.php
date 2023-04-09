@@ -189,11 +189,11 @@ class AutoBlogging_Pro
 
 		$connect_api = AUTOBLOGGING_PRO_API_URL . 'connect';
 
-		$action     = autoblogging_get_option('autoblogging_pro_action', 'draft');
-		$post_limit = autoblogging_get_option('autoblogging_pro_schedule_limit', 5);
+		$action     = get_option('autoblogging_pro_action', 'draft');
+		$post_limit = get_option('autoblogging_pro_schedule_limit', 5);
 
-		$autoblogging_pro_schedule_time = autoblogging_get_option('autoblogging_pro_schedule_time', '');
-		$api_key                        = autoblogging_get_option('autoblogging_pro_api_key', '');
+		$autoblogging_pro_schedule_time = get_option('autoblogging_pro_schedule_time', '');
+		$api_key                        = get_option('autoblogging_pro_api_key', '');
 
 
 
@@ -300,7 +300,7 @@ class AutoBlogging_Pro
 	public function insert_post($articles)
 	{
 		// Get the action option
-		$action = autoblogging_get_option('autoblogging_pro_action', 'draft');
+		$action = get_option('autoblogging_pro_action', 'draft');
 
 		// Get the schedule time option
 
@@ -324,7 +324,7 @@ class AutoBlogging_Pro
 
 				// Get the current date
 				$current_date          = $current_datetime->format('Y-m-d');
-				$schedule_time         = autoblogging_get_option('autoblogging_pro_schedule_time', '00:00');
+				$schedule_time         = get_option('autoblogging_pro_schedule_time', '00:00');
 				$new_post['post_date'] = $current_date . ' ' . $schedule_time;
 			}
 
