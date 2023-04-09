@@ -326,7 +326,7 @@ class AutoBlogging_Pro
 					],
 				]
 			);
-
+			var_dump($response);
 			if (is_wp_error($response)) {
 				// Handle errors
 				return;
