@@ -179,7 +179,7 @@ class AutoBlogging_Pro
 			wp_die(__('You do not have sufficient permissions to access this page.'));
 		}
 
-		if (isset($_REQUEST['autoblogging_pro_api_key'])) {
+		if (isset($_POST['autoblogging_pro_api_key']) || isset($_GET['api_key'])) {
 			update_option('autoblogging_pro_api_key', $_POST['autoblogging_pro_api_key']);
 		}
 
