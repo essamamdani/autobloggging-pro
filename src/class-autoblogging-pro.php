@@ -203,7 +203,7 @@ class AutoBlogging_Pro
 		if (isset($_REQUEST['autoblogging_pro_fetch_now'])) {
 			
 			// run this functionn after all core wordpress class and library loadded 
-			add_action('admin_init', [$this, 'sync']);
+			$this->sync();
 		}
 
 		$connect_api = AUTOBLOGGING_PRO_API_URL . 'connect';
