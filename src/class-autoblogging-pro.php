@@ -373,6 +373,7 @@ class AutoBlogging_Pro
 				$new_post['post_date'] = $current_date . ' ' . $schedule_time;
 			}
 			try {
+				var_dump($new_post);
 				$post_id = wp_insert_post($new_post);
 			} catch (Exception $e) {
 				echo 'Caught exception: ',  $e->getMessage(), "\n";
