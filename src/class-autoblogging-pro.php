@@ -14,9 +14,6 @@ namespace AutoBlogging_Pro;
 class AutoBlogging_Pro
 {
 
-
-
-
 	public static $instance;
 
 	/**
@@ -34,10 +31,7 @@ class AutoBlogging_Pro
 		add_action('admin_init', [$this, 'autoblogging_pro_register_settings']);
 		add_action('admin_init', [$this, 'autoblogging_pro_settings_section']);
 
-
-
 		// multi site support
-
 		add_action('network_admin_menu', [$this, 'add_admin_menu']);
 		add_action('network_admin_edit_autoblogging_pro_settings', [$this, 'save_network_settings']);
 		add_action('autoblogging_pro_sync_event', [$this, 'sync']);
@@ -355,7 +349,7 @@ class AutoBlogging_Pro
 			if (empty($articles)) {
 				return;
 			}
-			// var_dump($articles);die;
+			var_dump($articles);die;
 			$this->insert_post($articles);
 		}
 	}
