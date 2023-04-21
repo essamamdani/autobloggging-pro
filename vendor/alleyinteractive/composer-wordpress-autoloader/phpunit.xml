@@ -1,0 +1,15 @@
+<phpunit
+  bootstrap="vendor/autoload.php"
+  backupGlobals="false"
+  colors="true"
+  convertErrorsToExceptions="true"
+  convertNoticesToExceptions="true"
+  convertWarningsToExceptions="true"
+>
+  <testsuites>
+    <testsuite name="alleyinteractive/composer-wordpress-autoload">
+      <file>tests/AutoloaderTest.php</file>
+      <!-- <directory>tests</directory> -->
+    </testsuite>
+  </testsuites>
+</phpunit>

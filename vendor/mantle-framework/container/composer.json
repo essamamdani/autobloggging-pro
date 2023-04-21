@@ -1,0 +1,35 @@
+{
+    "name": "mantle-framework/container",
+    "description": "The Mantle Framework Container Package",
+    "type": "project",
+    "require": {
+        "php": "^8.0",
+        "alleyinteractive/composer-wordpress-autoloader": "^1.0",
+        "mantle-framework/contracts": "^0.10",
+        "psr/container": "^1.1.1 || ^2.0.1"
+    },
+    "provide": {
+        "psr/container-implementation": "1.1|2.0"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-main": "0.10-dev"
+        },
+        "wordpress-autoloader": {
+            "autoload": {
+                "Mantle\\Container": "./"
+            }
+        }
+    },
+    "license": "GPL-2.0-or-later",
+    "authors": [
+        {
+            "name": "Alley",
+            "email": "mantle@alley.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "config": {
+        "sort-packages": true
+    }
+}

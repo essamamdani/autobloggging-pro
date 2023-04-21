@@ -1,0 +1,18 @@
+{
+    "require": {
+        "php": "~7.3 || ~8.0",
+        "ext-gettext": "*",
+        "ext-hash": "*",
+        "ext-json": "*",
+        "ext-mbstring": "*",
+        "ext-openssl": "*",
+        "ext-sodium": "*",
+        "johnpbloch/wordpress": "6.2.0"
+    },
+    "minimum-stability": "stable",
+    "config": {
+        "allow-plugins": {
+            "johnpbloch/wordpress-core-installer": true
+        }
+    }
+}

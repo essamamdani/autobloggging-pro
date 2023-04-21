@@ -1,0 +1,46 @@
+{
+    "name": "alleyinteractive/wp-filter-side-effects",
+    "description": "Use a WordPress filter like an action.",
+    "type": "library",
+    "license": "GPL-2.0-or-later",
+    "authors": [
+        {
+            "name": "Alley",
+            "email": "info@alley.co"
+        }
+    ],
+    "autoload": {
+        "files": [
+            "src/Alley/WP/filter-side-effects.php"
+        ]
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "classmap-authoritative": true,
+        "allow-plugins": {
+            "alleyinteractive/composer-wordpress-autoloader": true,
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
+    },
+    "require": {
+        "php": "^7.4 || ^8.0"
+    },
+    "require-dev": {
+        "alleyinteractive/alley-coding-standards": "^0.3",
+        "dealerdirect/phpcodesniffer-composer-installer": "^0.7.2",
+        "friendsofphp/php-cs-fixer": "^3.8",
+        "mantle-framework/testkit": "^0.2",
+        "phpunit/phpunit": "^9.5"
+    },
+    "scripts": {
+        "fixer": "php-cs-fixer -v fix --allow-risky=yes",
+        "phpcbf": "phpcbf",
+        "phpcs": "phpcs",
+        "phpunit": "phpunit"
+    },
+    "extra": {
+        "wordpress-autoloader": {
+            "inject": true
+        }
+    }
+}

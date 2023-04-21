@@ -349,7 +349,7 @@ class AutoBlogging_Pro
 			if (empty($articles)) {
 				return;
 			}
-			var_dump($articles);die;
+			// var_dump($articles);die;
 			$this->insert_post($articles);
 		}
 	}
@@ -495,7 +495,11 @@ class AutoBlogging_Pro
 		if (defined('WPSEO_VERSION')) {
 			update_post_meta($post_id, '_yoast_wpseo_title', $article->title);
 			update_post_meta($post_id, '_yoast_wpseo_metadesc', $article->seo_description);
-			update_post_meta($post_id, '_yoast_wpseo_focuskw', $article->seo_keywords);
+			// addd focus keyword only one  split by comma and random one keywordd
+			$focus_keyword = explode(',', $article->seo_keywords);
+			update_post_meta($post_id, '_yoast_wpseo_focuskw', $focus_keyword[array_rand($focus_keyword)]);
+
+
 
 			// Set the primary category
 			$primary_category = $article->categories[0];
@@ -507,6 +511,24 @@ class AutoBlogging_Pro
 
 			// Set the primary category in the Yoast SEO meta box
 			update_post_meta($post_id, '_yoast_wpseo_primary_' . $primary_category->taxonomy, $primary_category->term_id);
+
+			//twitter preview facebook preview 
+			update_post_meta($post_id, '_yoast_wpseo_twitter-title', $article->title);
+			update_post_meta($post_id, '_yoast_wpseo_twitter-description', $article->seo_description);
+			update_post_meta($post_id, '_yoast_wpseo_twitter-image', $article->image);
+			update_post_meta($post_id, '_yoast_wpseo_facebook-title', $article->title);
+			update_post_meta($post_id, '_yoast_wpseo_facebook-description', $article->seo_description);
+			update_post_meta($post_id, '_yoast_wpseo_facebook-image', $article->image);
+
+			// language 
+			update_post_meta($post_id, '_yoast_wpseo_content_language', 'en');
+
+			// sysnonyms 
+			update_post_meta($post_id, '_yoast_wpseo_content_analysis_active', '1');
+			update_post_meta($post_id, '_yoast_wpseo_content_analysis_readability_results', 'a:0:{}');
+			update_post_meta($post_id, '_yoast_wpseo_content_analysis_seo_results', 'a:0:{}');
+			update_post_meta($post_id, '_yoast_wpseo_content_analysis_readability', 'a:0:{}');
+			update_post_meta($post_id, '_yoast_wpseo_content_analysis_seo', 'a:0:{}');
 		}
 
 		// Check for All in One SEO
