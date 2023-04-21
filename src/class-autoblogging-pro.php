@@ -346,7 +346,7 @@ class AutoBlogging_Pro
 
 			$articles = json_decode(wp_remote_retrieve_body($response), true);
 
-			if (empty($articles)) {
+			if (empty($articles) || isset($articles['error'])) {
 				return;
 			}
 			// var_dump($articles);die;
