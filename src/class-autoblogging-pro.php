@@ -326,6 +326,7 @@ class AutoBlogging_Pro
 		$domain  = get_site_url();
 		$api_key = get_option('autoblogging_pro_api_key');
 		if (!empty($api_key)) {
+
 			// Perform an HTTP request with the necessary headers
 			$response = wp_remote_get(
 				$app_url,
@@ -337,10 +338,11 @@ class AutoBlogging_Pro
 				]
 			);
 
-			if (is_wp_error($response)) {
+			if (is_array($response) &&  is_wp_error($response)) {
 				// Handle errors
 				return;
 			}
+
 
 			// Parse the JSON response and save the articles in the WordPress site
 
@@ -349,7 +351,7 @@ class AutoBlogging_Pro
 			if (empty($articles) || isset($articles['error'])) {
 				return;
 			}
-			// var_dump($articles);die;
+			//	var_dump($articles);die;
 			$this->insert_post($articles);
 		}
 	}
@@ -383,7 +385,7 @@ class AutoBlogging_Pro
 
 			$article = (object) $article;
 
-
+			var_dump($article->id);
 			// Create a new post object
 			$new_post = [
 				'post_title'   => wp_strip_all_tags($article->title),
@@ -413,7 +415,7 @@ class AutoBlogging_Pro
 				// Set post categories are comma separated
 				$categories   = explode(',', $article->category);
 				$category_ids = [];
-
+				$article->categories = [];
 				foreach ($categories as $category) {
 					$category = trim($category);
 					$term     = term_exists($category, 'category');
@@ -426,13 +428,14 @@ class AutoBlogging_Pro
 
 					if (!is_wp_error($category_id) && isset($category_id['term_id'])) {
 						$category_ids[] = $category_id['term_id'];
+						$article->categories[] = $category_id;
 					}
 				}
 				wp_set_post_categories($post_id, $category_ids);
 
 				// Save the article ID as post meta
 				update_post_meta($post_id, 'autoblogging_pro_article_id', $article->id);
-
+				//var_dump($articles->categories,$category_ids);die;
 				$this->seo_plugins($post_id, $article);
 
 				// Set featured image
@@ -495,14 +498,11 @@ class AutoBlogging_Pro
 		if (defined('WPSEO_VERSION')) {
 			update_post_meta($post_id, '_yoast_wpseo_title', $article->title);
 			update_post_meta($post_id, '_yoast_wpseo_metadesc', $article->seo_description);
-			// addd focus keyword only one  split by comma and random one keywordd
-			$focus_keyword = explode(',', $article->seo_keywords);
-			update_post_meta($post_id, '_yoast_wpseo_focuskw', $focus_keyword[array_rand($focus_keyword)]);
-
-
+			update_post_meta($post_id, '_yoast_wpseo_focuskw', $article->seo_keywords);
 
 			// Set the primary category
 			$primary_category = $article->categories[0];
+
 			update_post_meta($post_id, '_yoast_wpseo_primary_category', $primary_category);
 
 			// Set the primary category in the post
@@ -511,24 +511,6 @@ class AutoBlogging_Pro
 
 			// Set the primary category in the Yoast SEO meta box
 			update_post_meta($post_id, '_yoast_wpseo_primary_' . $primary_category->taxonomy, $primary_category->term_id);
-
-			//twitter preview facebook preview 
-			update_post_meta($post_id, '_yoast_wpseo_twitter-title', $article->title);
-			update_post_meta($post_id, '_yoast_wpseo_twitter-description', $article->seo_description);
-			update_post_meta($post_id, '_yoast_wpseo_twitter-image', $article->image);
-			update_post_meta($post_id, '_yoast_wpseo_facebook-title', $article->title);
-			update_post_meta($post_id, '_yoast_wpseo_facebook-description', $article->seo_description);
-			update_post_meta($post_id, '_yoast_wpseo_facebook-image', $article->image);
-
-			// language 
-			update_post_meta($post_id, '_yoast_wpseo_content_language', 'en');
-
-			// sysnonyms 
-			update_post_meta($post_id, '_yoast_wpseo_content_analysis_active', '1');
-			update_post_meta($post_id, '_yoast_wpseo_content_analysis_readability_results', 'a:0:{}');
-			update_post_meta($post_id, '_yoast_wpseo_content_analysis_seo_results', 'a:0:{}');
-			update_post_meta($post_id, '_yoast_wpseo_content_analysis_readability', 'a:0:{}');
-			update_post_meta($post_id, '_yoast_wpseo_content_analysis_seo', 'a:0:{}');
 		}
 
 		// Check for All in One SEO
