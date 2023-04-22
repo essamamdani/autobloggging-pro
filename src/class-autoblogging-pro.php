@@ -385,7 +385,7 @@ class AutoBlogging_Pro
 
 			$article = (object) $article;
 
-			var_dump($article->id);
+			// var_dump($article->id);
 			// Create a new post object
 			$new_post = [
 				'post_title'   => wp_strip_all_tags($article->title),
@@ -393,6 +393,7 @@ class AutoBlogging_Pro
 				'post_name'    => sanitize_title(preg_replace('/\b(a|an|the)\b/u', '', strtolower($article->title))),
 				'post_status'  => $status,
 				'post_author'  => 1,
+				'post_excerpt' => $article->seo_description,
 
 			];
 			if ($action == 'schedule') {
