@@ -8,6 +8,8 @@
 
 namespace AutoBlogging_Pro;
 
+use DateTime;
+
 /**
  * Example Plugin
  */
@@ -503,7 +505,7 @@ class AutoBlogging_Pro
 
 			// Set the primary category
 			$categories = get_the_terms($post_id, 'product_cat');
-			if ($categories && !is_wp_error($category)) :
+			if ($categories && !is_wp_error($categories)) :
 
 				// loop through each cat
 				foreach ($categories as $category) :
