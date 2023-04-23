@@ -499,19 +499,24 @@ class AutoBlogging_Pro
 		if (defined('WPSEO_VERSION')) {
 			update_post_meta($post_id, '_yoast_wpseo_title', $article->title);
 			update_post_meta($post_id, '_yoast_wpseo_metadesc', $article->seo_description);
-			update_post_meta($post_id, '_yoast_wpseo_focuskw', $article->seo_keywords);
+			update_post_meta($post_id, '_yoast_wpseo_focuskw', explode(',', $article->seo_keywords)[0]);
 
 			// Set the primary category
-			$primary_category = $article->categories[0];
+			$categories = get_the_terms($post_id, 'product_cat');
+			if ($categories && !is_wp_error($category)) :
 
-			update_post_meta($post_id, '_yoast_wpseo_primary_category', $primary_category);
+				// loop through each cat
+				foreach ($categories as $category) :
 
-			// Set the primary category in the post
-			$primary_category = get_term_by('id', $primary_category, 'category');
-			wp_set_object_terms($post_id, $primary_category->name, 'category');
+					// get the children (if any) of the current cat
+					$children = get_categories(array('taxonomy' => 'product_cat', 'parent' => $category->term_id));
 
-			// Set the primary category in the Yoast SEO meta box
-			update_post_meta($post_id, '_yoast_wpseo_primary_' . $primary_category->taxonomy, $primary_category->term_id);
+					if (count($children) == 0) {
+
+						update_post_meta($post_id, '_yoast_wpseo_primary_product_cat', $category->term_id);
+					}
+				endforeach;
+			endif;
 		}
 
 		// Check for All in One SEO
