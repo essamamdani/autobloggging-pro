@@ -41,6 +41,6 @@ require_once __DIR__ . '/src/meta.php';
  */
 function main(): void {
 	// ...
-	\AutoBlogging_Pro\AutoBlogging_Pro::instance();
+	\AutoBlogging_Pro\Main::instance();
 }
 main();
