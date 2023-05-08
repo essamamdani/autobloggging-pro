@@ -13,7 +13,7 @@ use DateTime;
 /**
  * Example Plugin
  */
-class AutoBlogging_Pro
+class Main
 {
 
 	public static $instance;
