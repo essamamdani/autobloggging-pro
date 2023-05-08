@@ -16,7 +16,7 @@
  * @package autoblogging-pro
  */
 
-namespace AutoBlogging_Pro;
+
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -40,8 +40,4 @@ require_once __DIR__ . '/src/meta.php';
 /**
  * Instantiate the plugin.
  */
-function main(): void {
-	// ...
-	\AutoBlogging_Pro\Main::instance();
-}
-main();
+AutoBlogging_Pro::instance();
