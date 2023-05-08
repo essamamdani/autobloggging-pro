@@ -6,14 +6,10 @@
  * @package autoblogging-pro
  */
 
-namespace AutoBlogging_Pro;
-
-use DateTime;
-
 /**
  * Example Plugin
  */
-class Main
+class AutoBlogging_Pro
 {
 
 	public static $instance;
