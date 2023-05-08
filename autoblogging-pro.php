@@ -33,6 +33,7 @@ define( 'AUTOBLOGGING_PRO_NAME', 'AutoBlogging Pro' );
 define( 'AUTOBLOGGING_PRO_API_URL', 'https://app.autoblogging.pro/' );
 
 // Load the plugin's main files.
+require_once __DIR__ . '/src/class-autoblogging-pro.php';
 require_once __DIR__ . '/src/meta.php';
 
 
