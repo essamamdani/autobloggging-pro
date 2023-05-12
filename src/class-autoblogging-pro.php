@@ -371,8 +371,12 @@ class AutoBlogging_Pro
 			$existing_post = get_posts(
 				[
 					'post_type'  => 'post',
-					'meta_key'   => 'autoblogging_pro_article_id',
-					'meta_value' => $article['id'],
+					'meta_query' => [
+						[
+							'key' => 'autoblogging_pro_article_id',
+							'value' => $article['id'],
+						],
+					],
 				]
 			);
 
