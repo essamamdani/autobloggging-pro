@@ -368,19 +368,21 @@ class AutoBlogging_Pro
 		foreach ($articles as $article) {
 
 			// Check if the article already exists
-			$existing_post = get_posts(
+			$existing_post = new WP_Query(
 				[
 					'post_type'  => 'post',
-					'meta_query' => [
-						[
+					'meta_query' => array(
+       					 array(
 							'key' => 'autoblogging_pro_article_id',
 							'value' => $article['id'],
-						],
-					],
+							'compare'   => '='
+						),
+					),
 				]
-			);
+			);	
+			wp_reset_postdata();
 
-			if (!empty($existing_post)) {
+			if ($existing_post->have_posts()) {
 				// Update the existing post if necessary
 				continue;
 			}
