@@ -497,6 +497,20 @@ class AutoBlogging_Pro
 			update_post_meta($post_id, 'rank_math_title', $article->title);
 			update_post_meta($post_id, 'rank_math_description', $article->seo_description);
 			update_post_meta($post_id, 'rank_math_focus_keyword', $article->seo_keywords);
+			
+			// Set the primary category
+			$categories = get_the_terms($post_id, 'category');
+			if ($categories && !is_wp_error($categories)) :
+				// loop through each cat
+				foreach ($categories as $category) :
+					// get the children (if any) of the current cat
+					$children = get_categories(array('taxonomy' => 'category', 'parent' => $category->term_id));
+
+					if (count($children) == 0) {
+						update_post_meta($post_id, 'rank_math_primary_' . $category->taxonomy, $category->term_id);
+					}
+				endforeach;
+			endif;
 		}
 
 		// Check for Yoast SEO
@@ -504,20 +518,18 @@ class AutoBlogging_Pro
 			update_post_meta($post_id, '_yoast_wpseo_title', $article->title);
 			update_post_meta($post_id, '_yoast_wpseo_metadesc', $article->seo_description);
 			update_post_meta($post_id, '_yoast_wpseo_focuskw', explode(',', $article->seo_keywords)[0]);
+			update_post_meta($post_id, '_yoast_wpseo_schema_article_type', "BlogPosting");
 
 			// Set the primary category
-			$categories = get_the_terms($post_id, 'product_cat');
+			$categories = get_the_terms($post_id, 'category');
 			if ($categories && !is_wp_error($categories)) :
-
 				// loop through each cat
 				foreach ($categories as $category) :
-
 					// get the children (if any) of the current cat
-					$children = get_categories(array('taxonomy' => 'product_cat', 'parent' => $category->term_id));
+					$children = get_categories(array('taxonomy' => 'category', 'parent' => $category->term_id));
 
 					if (count($children) == 0) {
-
-						update_post_meta($post_id, '_yoast_wpseo_primary_product_cat', $category->term_id);
+						update_post_meta($post_id, '_yoast_wpseo_primary_' . $category->taxonomy, $category->term_id);
 					}
 				endforeach;
 			endif;
@@ -525,19 +537,17 @@ class AutoBlogging_Pro
 
 		// Check for All in One SEO
 		if (defined('AIOSEOP_VERSION')) {
-			update_post_meta($post_id, '_aioseop_title', $article->title);
-			update_post_meta($post_id, '_aioseop_description', $article->seo_description);
-			update_post_meta($post_id, '_aioseop_keywords', $article->seo_keywords);
+			update_post_meta($post_id, '_aioseo_title', $article->title);
+			update_post_meta($post_id, '_aioseo_description', $article->seo_description);
+			update_post_meta($post_id, '_aioseo_keywords', $article->seo_keywords);
 
-			// Set the primary category
-			$primary_category = $article->categories[0];
-			update_post_meta($post_id, '_aioseop_primary_category', $primary_category);
+			update_post_meta($post_id, '_aioseo_og_title', $article->title);
+			update_post_meta($post_id, '_aioseo_og_description', $article->seo_description);
 
-			// Set the primary category in the post
-			$primary_category = get_term_by('id', $primary_category, 'category');
-			wp_set_object_terms($post_id, $primary_category->name, 'category');
+			update_post_meta($post_id, '_aioseo_og_article_tags', $article->tags);
+			update_post_meta($post_id, '_aioseo_twitter_title', $article->title);
+			update_post_meta($post_id, '_aioseo_twitter_description', $article->seo_description);
 
-			// Set the primary category in the All in One SEO meta box
 			update_post_meta($post_id, '_aioseop_primary_' . $primary_category->taxonomy, $primary_category->term_id);
 		}
 
@@ -549,11 +559,7 @@ class AutoBlogging_Pro
 
 			// Set the primary category
 			$primary_category = $article->categories[0];
-			update_post_meta($post_id, '_seopress_robots_primary_cat', $primary_category);
-
-			// Set the primary category in the post
-			$primary_category = get_term_by('id', $primary_category, 'category');
-			wp_set_object_terms($post_id, $primary_category->name, 'category');
+			update_post_meta($post_id, '_seopress_robots_primary_cat', $primary_category->term_id);
 
 			// Set the primary category in the SEOPress meta box
 			update_post_meta($post_id, '_seopress_robots_primary_' . $primary_category->taxonomy, $primary_category->term_id);
@@ -564,14 +570,6 @@ class AutoBlogging_Pro
 			update_post_meta($post_id, '_genesis_title', $article->title);
 			update_post_meta($post_id, '_genesis_description', $article->seo_description);
 			update_post_meta($post_id, '_genesis_keywords', $article->seo_keywords);
-
-			// Set the primary category
-			$primary_category = $article->categories[0];
-			update_post_meta($post_id, '_genesis_primary_category', $primary_category);
-
-			// Set the primary category in the post
-			$primary_category = get_term_by('id', $primary_category, 'category');
-			wp_set_object_terms($post_id, $primary_category->name, 'category');
 
 			// Set the primary category in the The SEO Framework meta box
 			update_post_meta($post_id, '_genesis_primary_' . $primary_category->taxonomy, $primary_category->term_id);
