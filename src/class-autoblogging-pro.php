@@ -545,14 +545,59 @@ class AutoBlogging_Pro
 
 			$table_name = $wpdb->prefix . 'aioseo_posts';
 			
+			$json_string = '{
+				"keyphraseInTitle": {
+					"score": 9,
+					"maxScore": 9,
+					"error": 0
+				},
+				"keyphraseInDescription": {
+					"score": 9,
+					"maxScore": 9,
+					"error": 0
+				},
+				"keyphraseLength": {
+					"score": 9,
+					"maxScore": 9,
+					"error": 0,
+					"length": 2
+				},
+				"keyphraseInURL": {
+					"score": 5,
+					"maxScore": 5,
+					"error": 0
+				},
+				"keyphraseInIntroduction": {
+					"score": 3,
+					"maxScore": 9,
+					"error": 1
+				},
+				"keyphraseInSubHeadings": {
+					"score": 3,
+					"maxScore": 9,
+					"error": 1
+				},
+				"keyphraseInImageAlt": []
+			}';
+
+			$keyphrases = [
+				"focus" => [
+					"keyphrase" => $article->focus_keyphrase,
+					"score" => rand(60,90),
+					"analysis" => json_decode($json_string, true)
+				],
+				"additional" => []
+			];
+
+			$keyphrases_json = json_encode($keyphrases);
 
 			$data = array(
 				'post_id' => $post_id, // The ID of your post.
 				'title' => $article->title,
 				'description' => $article->description,
-				'keywords' => $article->seo_keywords,
-				'keyphrases' => $article->focus_keyphrase,
-				'images' => json_encode(array($article->image)), // Assuming images field expects a JSON-encoded array of image URLs
+				'keywords' => json_encode(explode(',', $article->seo_keywords)),
+				'keyphrases' => $keyphrases_json,
+				'images' => json_encode(array($article->image)), // images field expects a JSON-encoded array of image URLs
 
 				// Add other fields here...
 			);
