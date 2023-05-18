@@ -425,18 +425,24 @@ class AutoBlogging_Pro
 					$category = trim($category);
 					$term     = term_exists($category, 'category');
 
-					if ($term) {
+					if (is_array($term)) {
 						$category_id = $term['term_id'];
 					} else {
-						$category_id = wp_insert_term($category, 'category');
+						// wp_insert_term returns an array on success or WP_Error on failure
+						$result = wp_insert_term($category, 'category');
+						if (is_wp_error($result)) {
+							// handle the error in some way
+							continue;
+						} else {
+							$category_id = $result['term_id'];
+						}
 					}
 
-					if (!is_wp_error($category_id) && isset($category_id['term_id'])) {
-						$category_ids[] = $category_id['term_id'];
-						$article->categories[] = $category_id;
-					}
+					$category_ids[] = $category_id;
+					$article->categories[] = $category_id;
 				}
 				wp_set_post_categories($post_id, $category_ids);
+
 
 				// Save the article ID as post meta
 				update_post_meta($post_id, 'autoblogging_pro_article_id', $article->id);
@@ -540,7 +546,7 @@ class AutoBlogging_Pro
 		}
 
 		// Check for All in One SEO
-		if (defined('AIOSEOP_VERSION')) {
+		if (defined('AIOSEO_PHP_VERSION_DIR')) {
 			global $wpdb;
 
 			$table_name = $wpdb->prefix . 'aioseo_posts';
@@ -594,7 +600,7 @@ class AutoBlogging_Pro
 			$data = array(
 				'post_id' => $post_id, // The ID of your post.
 				'title' => $article->title,
-				'description' => $article->description,
+				'description' => $article->seo_description,
 				'keywords' => json_encode(explode(',', $article->seo_keywords)),
 				'keyphrases' => $keyphrases_json,
 				'images' => json_encode(array($article->image)), // images field expects a JSON-encoded array of image URLs
@@ -611,7 +617,7 @@ class AutoBlogging_Pro
 				'%s',  // images is longtext.
 				// Add formats for other fields here...
 			);
-
+			//var_dump($table_name, $data, $format);die;
 			$wpdb->insert($table_name, $data, $format);
 		}
 
