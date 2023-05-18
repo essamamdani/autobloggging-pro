@@ -67,9 +67,7 @@ class AutoBlogging_Pro
 		if (isset($_POST['autoblogging_pro_publish_time'])) {
 			update_site_option('autoblogging_pro_publish_time', $_POST['autoblogging_pro_publish_time']);
 		}
-		if (isset($_POST['autoblogging_pro_post_limit'])) {
-			update_site_option('autoblogging_pro_post_limit', $_POST['autoblogging_pro_post_limit']);
-		}
+	
 
 		if (isset($_POST['autoblogging_pro_publish_time'])) {
 			update_site_option('autoblogging_pro_publish_time', $_POST['autoblogging_pro_publish_time']);
@@ -98,7 +96,7 @@ class AutoBlogging_Pro
 		$default_options = [
 			'autoblogging_pro_api_key'      => '',
 			'autoblogging_pro_publish_time' => '12:00',
-			'autoblogging_pro_post_limit'   => 5,
+			'autoblogging_pro_post_limit'   => 15,
 			'autoblogging_pro_action'       => 'draft',
 
 		];
@@ -199,9 +197,7 @@ class AutoBlogging_Pro
 			update_option('autoblogging_pro_publish_time', $_POST['autoblogging_pro_publish_time']);
 		}
 
-		if (isset($_POST['autoblogging_pro_post_limit'])) {
-			update_option('autoblogging_pro_post_limit', $_POST['autoblogging_pro_post_limit']);
-		}
+	
 
 		if (isset($_POST['autoblogging_pro_publish_time'])) {
 			update_option('autoblogging_pro_publish_time', $_POST['autoblogging_pro_publish_time']);
@@ -215,7 +211,7 @@ class AutoBlogging_Pro
 		$connect_api = AUTOBLOGGING_PRO_API_URL . 'connect';
 
 		$action     = get_option('autoblogging_pro_action', 'draft');
-		$post_limit = get_option('autoblogging_pro_post_limit', 5);
+		$post_limit = get_option('autoblogging_pro_post_limit', 15);
 
 		$autoblogging_pro_publish_time = get_option('autoblogging_pro_publish_time', '');
 		$api_key                       = get_option('autoblogging_pro_api_key', '');
@@ -241,7 +237,7 @@ class AutoBlogging_Pro
 	public function autoblogging_pro_settings_section()
 	{
 		add_settings_section('autoblogging_pro_settings_section', '', [$this, 'autoblogging_pro_settings_section_callback'], 'autoblogging_pro_settings_group');
-		add_settings_field('autoblogging_pro_post_limit', 'Schedule Limit', [$this, 'autoblogging_pro_post_limit_callback'], 'autoblogging_pro_settings_group', 'autoblogging_pro_settings_section');
+		//add_settings_field('autoblogging_pro_post_limit', 'Schedule Limit', [$this, 'autoblogging_pro_post_limit_callback'], 'autoblogging_pro_settings_group', 'autoblogging_pro_settings_section');
 		add_settings_field('autoblogging_pro_action', 'Action', [$this, 'autoblogging_pro_action_callback'], 'autoblogging_pro_settings_group', 'autoblogging_pro_settings_section');
 		add_settings_field('autoblogging_pro_publish_time', 'Schedule Time', [$this, 'autoblogging_pro_publish_time_callback'], 'autoblogging_pro_settings_group', 'autoblogging_pro_settings_section');
 	}
@@ -262,7 +258,7 @@ class AutoBlogging_Pro
 		<tr valign="top">
 
 			<td>
-				<input type="number" name="autoblogging_pro_post_limit" min="1" step="1" value="<?php echo esc_attr(get_option('autoblogging_pro_post_limit', 1)); ?>" class="regular-text">
+				<input type="number" name="f" min="1" step="1" value="<?php echo esc_attr(get_option('autoblogging_pro_post_limit', 1)); ?>" class="regular-text">
 				<p class="description"><?php esc_html_e('Enter the maximum number of articles to publish per day', 'autoblogging-pro'); ?></p>
 			</td>
 		</tr>
