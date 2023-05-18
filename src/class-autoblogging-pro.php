@@ -388,7 +388,7 @@ class AutoBlogging_Pro
 			}
 
 			$article = (object) $article;
-
+			$article->focus_keyphrase = isset($article->focus_keyphrase) ? $article->focus_keyphrase : explode(',', $article->seo_keywords)[0];
 			// var_dump($article->id);
 			// Create a new post object
 			$new_post = [
@@ -483,6 +483,10 @@ class AutoBlogging_Pro
 				wp_update_attachment_metadata($attachment_id, $attachment_data);
 
 				set_post_thumbnail($post_id, $attachment_id);
+				
+				// Assuming your $article object has an 'image_alt' property
+    	        // Otherwise, replace $article->image_alt with the alt text you want
+	            update_post_meta($attachment_id, '_wp_attachment_image_alt', $article->focus_keyphrase);
 			}
 		}
 	}
@@ -537,18 +541,33 @@ class AutoBlogging_Pro
 
 		// Check for All in One SEO
 		if (defined('AIOSEOP_VERSION')) {
-			update_post_meta($post_id, '_aioseo_title', $article->title);
-			update_post_meta($post_id, '_aioseo_description', $article->seo_description);
-			update_post_meta($post_id, '_aioseo_keywords', $article->seo_keywords);
+			global $wpdb;
 
-			update_post_meta($post_id, '_aioseo_og_title', $article->title);
-			update_post_meta($post_id, '_aioseo_og_description', $article->seo_description);
+			$table_name = $wpdb->prefix . 'aioseo_posts';
+			
 
-			update_post_meta($post_id, '_aioseo_og_article_tags', $article->tags);
-			update_post_meta($post_id, '_aioseo_twitter_title', $article->title);
-			update_post_meta($post_id, '_aioseo_twitter_description', $article->seo_description);
+			$data = array(
+				'post_id' => $post_id, // The ID of your post.
+				'title' => $article->title,
+				'description' => $article->description,
+				'keywords' => $article->seo_keywords,
+				'keyphrases' => $article->focus_keyphrase,
+				'images' => json_encode(array($article->image)), // Assuming images field expects a JSON-encoded array of image URLs
 
-			update_post_meta($post_id, '_aioseop_primary_' . $primary_category->taxonomy, $primary_category->term_id);
+				// Add other fields here...
+			);
+
+			$format = array(
+				'%d',  // post_id is a big integer.
+				'%s',  // title is text.
+				'%s',  // description is text.
+				'%s',  // keywords is mediumtext.
+				'%s',  // keyphrases is longtext.
+				'%s',  // images is longtext.
+				// Add formats for other fields here...
+			);
+
+			$wpdb->insert($table_name, $data, $format);
 		}
 
 		// Check for SEOPress
