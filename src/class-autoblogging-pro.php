@@ -523,7 +523,7 @@ class AutoBlogging_Pro
 		if (defined('WPSEO_VERSION')) {
 			update_post_meta($post_id, '_yoast_wpseo_title', $article->title);
 			update_post_meta($post_id, '_yoast_wpseo_metadesc', $article->seo_description);
-			update_post_meta($post_id, '_yoast_wpseo_focuskw', explode(',', $article->seo_keywords)[0]);
+			update_post_meta($post_id, '_yoast_wpseo_focuskw', $article->focus_keyphrase);
 			update_post_meta($post_id, '_yoast_wpseo_schema_article_type', "BlogPosting");
 
 			// Set the primary category
