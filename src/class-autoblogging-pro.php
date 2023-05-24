@@ -621,7 +621,7 @@ class AutoBlogging_Pro
 		if (defined('SEOPRESS_VERSION')) {
 			update_post_meta($post_id, '_seopress_titles_title', $article->title);
 			update_post_meta($post_id, '_seopress_titles_desc', $article->seo_description);
-			update_post_meta($post_id, '_seopress_analysis_target_kw', $article->seo_keywords);
+			update_post_meta($post_id, '_seopress_analysis_target_kw', $article->focus_keyphrase);
 
 			// Set the primary category
 			$primary_category = $article->categories[0];
