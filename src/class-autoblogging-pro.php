@@ -364,20 +364,15 @@ class AutoBlogging_Pro
 		foreach ($articles as $article) {
 
 			// Check if the article already exists
-			$existing_post = new WP_Query(
-				[
-					'post_type'  => 'post',
-					'meta_query' => array(
-       					 array(
-							'key' => 'autoblogging_pro_article_id',
-							'value' => $article['id'],
-							'compare'   => '='
-						),
-					),
-				]
-			);	
-			wp_reset_postdata();
+			$args = array(
+				'meta_key' => 'autoblogging_pro_article_id',
+				'meta_value' => $article['id'],
+				'post_type' => 'post',
+				'posts_per_page' => 1,
+			);
 
+			$existing_post = new WP_Query($args);
+		
 			if ($existing_post->have_posts()) {
 				// Update the existing post if necessary
 				continue;
@@ -385,7 +380,6 @@ class AutoBlogging_Pro
 
 			$article = (object) $article;
 			$article->focus_keyphrase = isset($article->focus_keyphrase) ? $article->focus_keyphrase : explode(',', $article->seo_keywords)[0];
-			// var_dump($article->id);
 			// Create a new post object
 			$new_post = [
 				'post_title'   => wp_strip_all_tags($article->title),
@@ -409,6 +403,8 @@ class AutoBlogging_Pro
 			$post_id = wp_insert_post($new_post);
 
 			if ($post_id) {
+				// Save the article ID as post meta
+				add_post_meta($post_id, 'autoblogging_pro_article_id', $article->id);
 				// Set post tags
 				// tags are comma separated
 				wp_set_post_tags($post_id, $article->tags);
@@ -440,8 +436,7 @@ class AutoBlogging_Pro
 				wp_set_post_categories($post_id, $category_ids);
 
 
-				// Save the article ID as post meta
-				update_post_meta($post_id, 'autoblogging_pro_article_id', $article->id);
+
 				//var_dump($articles->categories,$category_ids);die;
 				$this->seo_plugins($post_id, $article);
 
