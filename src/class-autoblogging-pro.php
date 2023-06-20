@@ -363,17 +363,22 @@ class AutoBlogging_Pro
 
 		foreach ($articles as $article) {
 
-			// Check if the article already exists
-			$args = array(
-				'meta_key' => 'autoblogging_pro_article_id',
-				'meta_value' => $article['id'],
-				'post_type' => 'post',
-				'posts_per_page' => 1,
-			);
+			
+			global $wpdb;
+			$metaKey = 'autoblogging_pro_article_id';
+			$metaValue = $article['id'];
 
-			$existing_post = new WP_Query($args);
+			$count = $wpdb->get_var(
+				$wpdb->prepare(
+					"SELECT COUNT(*) 
+					FROM $wpdb->postmeta
+					WHERE meta_key = %s AND meta_value = %s",
+					$metaKey,$metaValue
+				)
+			);
+			
 		
-			if ($existing_post->have_posts()) {
+			if ($count > 0) {
 				// Update the existing post if necessary
 				continue;
 			}
