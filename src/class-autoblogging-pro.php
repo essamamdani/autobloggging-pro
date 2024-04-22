@@ -9,6 +9,36 @@
 /**
  * Example Plugin
  */
+function get_image_sources_from_html($html_content) {
+    // Create a new DOMDocument instance
+    $dom = new DOMDocument();
+    
+    // Suppress errors due to malformed HTML
+    libxml_use_internal_errors(true);
+    
+    // Load the HTML content
+    $dom->loadHTML($html_content);
+    
+    // Clear the libxml error buffer
+    libxml_clear_errors();
+    
+    // Get all the image tags
+    $images = $dom->getElementsByTagName('img');
+    
+    // Array to hold all src attributes
+    $srcs = [];
+
+    // Loop over image tags and extract the src attribute
+    foreach ($images as $img) {
+        $src = $img->getAttribute('src');
+        if (!empty($src)) {
+            $srcs[] = $src;
+        }
+    }
+
+    return $srcs;
+}
+
 class AutoBlogging_Pro
 {
 
@@ -67,7 +97,7 @@ class AutoBlogging_Pro
 		if (isset($_POST['autoblogging_pro_publish_time'])) {
 			update_site_option('autoblogging_pro_publish_time', $_POST['autoblogging_pro_publish_time']);
 		}
-	
+
 
 		if (isset($_POST['autoblogging_pro_publish_time'])) {
 			update_site_option('autoblogging_pro_publish_time', $_POST['autoblogging_pro_publish_time']);
@@ -197,7 +227,7 @@ class AutoBlogging_Pro
 			update_option('autoblogging_pro_publish_time', $_POST['autoblogging_pro_publish_time']);
 		}
 
-	
+
 
 		if (isset($_POST['autoblogging_pro_publish_time'])) {
 			update_option('autoblogging_pro_publish_time', $_POST['autoblogging_pro_publish_time']);
@@ -345,7 +375,7 @@ class AutoBlogging_Pro
 			if (empty($articles) || isset($articles['error'])) {
 				return;
 			}
-			//	var_dump($articles);die;
+				// var_dump($articles);die;
 			$this->insert_post($articles);
 		}
 	}
@@ -363,7 +393,7 @@ class AutoBlogging_Pro
 
 		foreach ($articles as $article) {
 
-			
+
 			global $wpdb;
 			$metaKey = 'autoblogging_pro_article_id';
 			$metaValue = $article['id'];
@@ -373,11 +403,12 @@ class AutoBlogging_Pro
 					"SELECT COUNT(*) 
 					FROM $wpdb->postmeta
 					WHERE meta_key = %s AND meta_value = %s",
-					$metaKey,$metaValue
+					$metaKey,
+					$metaValue
 				)
 			);
-			
-		
+
+
 			if ($count > 0) {
 				// Update the existing post if necessary
 				continue;
@@ -386,7 +417,20 @@ class AutoBlogging_Pro
 			$article = (object) $article;
 			$article->focus_keyphrase = isset($article->focus_keyphrase) ? $article->focus_keyphrase : explode(',', $article->seo_keywords)[0];
 			// Create a new post object
+			$isfeature = $article->image ? 1 : 0;
+			$contentimage = $article->image_count - $isfeature;
+			if ($contentimage > 0) {
+				$image_sources = get_image_sources_from_html($article->description);
+
+				// Print the sources
+				print_r($image_sources);
+				foreach ($image_sources as $img){
+					$img_src = $this->insert_image($img, $article->id,"content");
+					$article->description = str_replace($img,$img_src,$article->description);
+				}
+			}
 			$new_post = [
+
 				'post_title'   => wp_strip_all_tags($article->title),
 				'post_content' => $article->description,
 				'post_name'    => sanitize_title(preg_replace('/\b(a|an|the)\b/u', '', strtolower($article->title))),
@@ -452,46 +496,110 @@ class AutoBlogging_Pro
 			}
 		}
 	}
+	function download_image($url) {
+		$ch = curl_init();
+		curl_setopt($ch, CURLOPT_URL, $url);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+		curl_setopt($ch, CURLOPT_TIMEOUT, 20);
+		$data = curl_exec($ch);
+		$error = curl_error($ch);
+		curl_close($ch);
+		if ($error) {
+			error_log('Curl error: ' . $error); // Agar cURL fail ho jaye toh error log karein
+			return false;
+		}
+		return $data;
+	}
 
+	public function insert_image($article, $post_id, $type = "featured")
+{
+    $image_url = is_object($article) ? $article->image : $article;
+    // Download the image using the download_image function
+    $image = $this->download_image($image_url);
+    if (!$image) {
+        // Handle error, image not downloaded
+        error_log('Failed to download image from ' . $image_url);
+        return;
+    }
+
+    // Upload the image to the media library
+    $upload = wp_upload_bits(basename($image_url), null, $image);
+
+    // Check if the upload was successful
+    if (!$upload['error']) {
+        $wp_filetype = wp_check_filetype(basename($upload['file']), null);
+        $attachment = [
+            'post_mime_type' => $wp_filetype['type'],
+            'post_title'     => sanitize_file_name(basename($upload['file'])),
+            'post_content'   => '',
+            'post_status'    => 'inherit',
+        ];
+
+        $attachment_id = wp_insert_attachment($attachment, $upload['file']);
+
+        if (!is_wp_error($attachment_id)) {
+            require_once ABSPATH . 'wp-admin/includes/image.php';
+            $attachment_data = wp_generate_attachment_metadata($attachment_id, $upload['file']);
+            wp_update_attachment_metadata($attachment_id, $attachment_data);
+
+            if ($type == 'featured') {
+                update_post_meta($attachment_id, '_wp_attachment_image_alt', $article->focus_keyphrase);
+                set_post_thumbnail($post_id, $attachment_id);
+            } else {
+                return wp_get_attachment_url($attachment_id);
+            }
+        }
+    }
+}
 	/**
 	 * Insert image
 	 */
-	public function insert_image($article, $post_id)
-	{
-		// Download the image
-		$image = file_get_contents($article->image);
+	// public function insert_image($article, $post_id,$type = "featured")
+	// {
+	// 	$image_url = is_object($article) ? $article->image : $article;
+	// 	// Download the image
+	// 	$image = file_get_contents($image_url);
 
-		// Upload the image to the media library
-		$upload = wp_upload_bits(basename($article->image), null, $image);
+	// 	// Upload the image to the media library
 
-		// Check if the upload was successful
+	// 	$upload = wp_upload_bits(basename($image_url), null, $image);
+	// 	if ($upload['error']) {
+	// 		error_log('Upload error: ' . $upload['error']); // Upload errors log karein
+	// 		return;
+	// 	}
 
-		if (!$upload['error']) {
-			$wp_filetype = wp_check_filetype(basename($upload['file']), null);
+	// 	// Check if the upload was successful
 
-			$attachment = [
-				'post_mime_type' => $wp_filetype['type'],
-				'post_title'     => sanitize_file_name(basename($upload['file'])),
-				'post_content'   => '',
-				'post_status'    => 'inherit',
-			];
+	// 	if (!$upload['error']) {
+	// 		$wp_filetype = wp_check_filetype(basename($upload['file']), null);
 
-			$attachment_id = wp_insert_attachment($attachment, $upload['file']);
+	// 		$attachment = [
+	// 			'post_mime_type' => $wp_filetype['type'],
+	// 			'post_title'     => sanitize_file_name(basename($upload['file'])),
+	// 			'post_content'   => '',
+	// 			'post_status'    => 'inherit',
+	// 		];
 
-			if (!is_wp_error($attachment_id)) {
-				require_once ABSPATH . 'wp-admin/includes/image.php';
+	// 		$attachment_id = wp_insert_attachment($attachment, $upload['file']);
 
-				$attachment_data = wp_generate_attachment_metadata($attachment_id, $upload['file']);
-				wp_update_attachment_metadata($attachment_id, $attachment_data);
+	// 		if (!is_wp_error($attachment_id)) {
+	// 			require_once ABSPATH . 'wp-admin/includes/image.php';
 
-				set_post_thumbnail($post_id, $attachment_id);
-				
-				// Assuming your $article object has an 'image_alt' property
-    	        // Otherwise, replace $article->image_alt with the alt text you want
-	            update_post_meta($attachment_id, '_wp_attachment_image_alt', $article->focus_keyphrase);
-			}
-		}
-	}
+	// 			$attachment_data = wp_generate_attachment_metadata($attachment_id, $upload['file']);
+	// 			wp_update_attachment_metadata($attachment_id, $attachment_data);
+
+
+	// 			if ($type == 'featured') {
+	// 				// Assuming your $article object has an 'image_alt' property
+	// 				// Otherwise, replace $article->image_alt with the alt text you want
+	// 				update_post_meta($attachment_id, '_wp_attachment_image_alt', $article->focus_keyphrase);
+	// 				set_post_thumbnail($post_id, $attachment_id);
+	// 			} else {
+	// 				return	wp_get_attachment_url($attachment_id);
+	// 			}
+	// 		}
+	// 	}
+	// }
 
 	/**
 	 * SEO plugins
@@ -503,7 +611,7 @@ class AutoBlogging_Pro
 			update_post_meta($post_id, 'rank_math_title', $article->title);
 			update_post_meta($post_id, 'rank_math_description', $article->seo_description);
 			update_post_meta($post_id, 'rank_math_focus_keyword', $article->seo_keywords);
-			
+
 			// Set the primary category
 			$categories = get_the_terms($post_id, 'category');
 			if ($categories && !is_wp_error($categories)) :
@@ -546,7 +654,7 @@ class AutoBlogging_Pro
 			global $wpdb;
 
 			$table_name = $wpdb->prefix . 'aioseo_posts';
-			
+
 			$json_string = '{
 				"keyphraseInTitle": {
 					"score": 9,
@@ -585,7 +693,7 @@ class AutoBlogging_Pro
 			$keyphrases = [
 				"focus" => [
 					"keyphrase" => $article->focus_keyphrase,
-					"score" => rand(60,90),
+					"score" => rand(60, 90),
 					"analysis" => json_decode($json_string, true)
 				],
 				"additional" => []
