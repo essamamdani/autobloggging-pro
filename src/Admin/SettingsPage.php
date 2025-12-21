@@ -6,7 +6,7 @@ use AutoBlogging_Pro\Service\ArticleService;
 
 class SettingsPage {
 
-	const API_URL = 'https://app.autoblogging.pro/';
+	const API_URL = 'https://www.autoblogging.pro/';
 
 	public function init() {
 		add_action( 'admin_menu', [ $this, 'add_admin_menu' ] );

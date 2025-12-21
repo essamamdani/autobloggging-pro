@@ -147,7 +147,7 @@ class ArticleService {
      * @return void
      */
     public function fetch_and_sync() {
-        $api_url = 'https://app.autoblogging.pro/'; // Should ideally be injected or constant
+        $api_url = 'https://www.autoblogging.pro/'; // Should ideally be injected or constant
         $app_url = $api_url . 'api/articles';
 		$domain  = get_site_url();
 		$api_key = get_option( 'autoblogging_pro_api_key' );
