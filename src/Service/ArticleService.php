@@ -50,7 +50,14 @@ class ArticleService {
 			return;
 		}
 
-		$article->focus_keyphrase = isset( $article->focus_keyphrase ) ? $article->focus_keyphrase : explode( ',', $article->seo_keywords )[0];
+		$keywords = isset( $article->seo_keywords ) ? $article->seo_keywords : '';
+		
+		// Handle array keywords (API v2+)
+		if ( is_array( $keywords ) ) {
+			$keywords = implode( ',', $keywords );
+		}
+		
+		$article->focus_keyphrase = isset( $article->focus_keyphrase ) ? $article->focus_keyphrase : explode( ',', $keywords )[0];
 
 		// Handle images in content
         $image_service = new ImageService();
