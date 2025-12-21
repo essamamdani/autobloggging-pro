@@ -7,8 +7,8 @@
 
 namespace AutoBlogging_Pro;
 
-// Register custom meta fields.
-register_post_meta_from_defs();
+// Register custom meta fields on init.
+add_action( 'init', __NAMESPACE__ . '\register_post_meta_from_defs' );
 
 /**
  * Register meta for posts or terms with sensible defaults and sanitization.
