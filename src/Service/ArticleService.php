@@ -168,14 +168,27 @@ class ArticleService {
         );
 
         if ( is_wp_error( $response ) ) {
-            return;
+            throw new \Exception( 'Connection error: ' . $response->get_error_message() );
         }
 
         $body = wp_remote_retrieve_body( $response );
+        $code = wp_remote_retrieve_response_code( $response );
+
+        if ( $code !== 200 ) {
+             $error_data = json_decode( $body, true );
+             $error_msg = isset( $error_data['error'] ) ? $error_data['error'] : 'API Error ' . $code;
+             throw new \Exception( $error_msg );
+        }
+
         $articles = json_decode( $body, true );
 
-        if ( empty( $articles ) || isset( $articles['error'] ) ) {
-            return;
+        if ( isset( $articles['error'] ) ) {
+            throw new \Exception( $articles['error'] );
+        }
+
+        if ( empty( $articles ) ) {
+             // Not necessarily an error, but good to know
+             return;
         }
 
         $this->import_articles( $articles );

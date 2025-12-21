@@ -38,8 +38,14 @@ class AutoBlogging_Pro {
     }
 
 	public function execute_sync() {
-        $article_service = new ArticleService();
-        $article_service->fetch_and_sync();
+		try {
+			$article_service = new ArticleService();
+			$article_service->fetch_and_sync();
+		} catch ( \Exception $e ) {
+			error_log( 'AutoBlogging Pro Sync Error: ' . $e->getMessage() );
+		} catch ( \Error $e ) {
+			error_log( 'AutoBlogging Pro Sync Fatal Error: ' . $e->getMessage() );
+		}
 	}
 
 	public function activate() {

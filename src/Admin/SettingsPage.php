@@ -83,9 +83,14 @@ class SettingsPage {
 			wp_send_json_error( 'Permission denied' );
 		}
 
-        $article_service = new ArticleService();
-        $article_service->fetch_and_sync();
-
-		wp_send_json_success( 'Sync started' );
+		try {
+			$article_service = new ArticleService();
+			$article_service->fetch_and_sync();
+			wp_send_json_success( 'Sync completed successfully' );
+		} catch ( \Exception $e ) {
+			wp_send_json_error( $e->getMessage() );
+		} catch ( \Error $e ) {
+			wp_send_json_error( $e->getMessage() );
+		}
 	}
 }
