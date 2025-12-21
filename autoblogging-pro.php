@@ -4,7 +4,7 @@
  * Plugin Name: AutoBlogging Pro
  * Plugin URI: https://autoblogging.pro
  * Description: Automatically fetch and publish articles from AutoBlogging Pro.
- * Version: 1.1
+ * Version: 1.2
  * Author: Essa Mamdani
  * Author URI: https://autoblogging.pro
  * Requires at least: 5.9
@@ -28,7 +28,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 define( 'AUTOBLOGGING_PRO_DIR', __DIR__ );
 define( 'AUTOBLOGGING_PRO_URL', plugin_dir_url( __FILE__ ) );
 define( 'AUTOBLOGGING_PRO_FILE', __FILE__ );
-define( 'AUTOBLOGGING_PRO_VERSION', '1.1' );
+define( 'AUTOBLOGGING_PRO_VERSION', '1.2' );
 define( 'AUTOBLOGGING_PRO_NAME', 'AutoBlogging Pro' );
 define( 'AUTOBLOGGING_PRO_API_URL', 'https://www.autoblogging.pro/' );
 
